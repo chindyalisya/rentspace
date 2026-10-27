@@ -29,7 +29,7 @@ export default function Checkout() {
     return (
       <AppShell>
         <Head title="Pesanan dibuat" />
-        <div className="glass mx-auto mt-8 grid max-w-md place-items-center rounded-[2rem] p-10 text-center">
+        <div className="glass mx-auto mt-8 grid max-w-md place-items-center rounded-3xl p-10 text-center">
           <CheckCircle2 size={48} className="text-teal" />
           <h1 className="mt-4 text-2xl font-semibold text-teal-deep">Pesanan dibuat</h1>
           <p className="mt-1 text-sm text-ink/60">Tunjukkan kode ini saat serah terima barang.</p>
@@ -60,10 +60,10 @@ export default function Checkout() {
             </div>
           </section>
         </div>
-        <aside className="glass h-fit rounded-[2rem] p-6 lg:sticky lg:top-24">
+        <aside className="glass h-fit rounded-3xl p-6 lg:sticky lg:top-24">
           <p className="font-medium text-teal-deep">Pesananmu</p>
           <ul className="mt-4 space-y-2 text-sm">
-            {rows.map(({ it, days, ...c }) => <li key={c.slug} className="flex justify-between gap-3"><span className="text-ink/70">{it.emoji} {it.name}, {days} hari</span><span>{rupiah(it.price * days * c.qty)}</span></li>)}
+            {rows.map(({ it, days, ...c }) => <li key={c.slug} className="flex justify-between gap-3"><span className="text-ink/70">{it.name}, {days} hari</span><span>{rupiah(it.price * days * c.qty)}</span></li>)}
             {!rows.length && <li className="text-ink/55">Belum ada barang. <Link href="/katalog" className="text-teal">Pilih barang</Link></li>}
           </ul>
           <div className="mt-4 flex justify-between border-t border-ink/10 pt-3 font-medium"><span>Total termasuk deposit</span><span className="text-teal">{rupiah(total)}</span></div>

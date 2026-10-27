@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Head, Link } from '@inertiajs/react';
 import { ChevronRight, PackageCheck, Star, TrendingUp, Wallet } from 'lucide-react';
-import { StatusBadge, rupiah } from '@/components/rs';
+import { StatusBadge, rupiah, Thumb } from '@/components/rs';
 import { AppShell, MitraTabs } from '@/layouts/shell';
 import { bySlug, mitraItems, mitraRequests, mitraStats as s, orders } from '@/lib/dummy';
 
@@ -42,7 +42,7 @@ export default function MitraDashboard() {
               const it = bySlug(r.slug);
               return (
                 <div key={r.id} className="flex items-center gap-3 rounded-2xl bg-white/60 p-3">
-                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-rose-soft to-teal/15 text-xl">{it.emoji}</span>
+                  <Thumb item={it} zoom={false} className="size-11 rounded-lg" />
                   <div className="min-w-0 flex-1"><p className="truncate text-sm font-medium">{it.name}</p><p className="text-xs text-ink/55">{r.penyewa} · {r.start} sampai {r.end}</p></div>
                 </div>
               );
@@ -59,7 +59,7 @@ export default function MitraDashboard() {
               const it = bySlug(o.slug);
               return (
                 <div key={o.id} className="flex items-center gap-3 rounded-2xl bg-white/60 p-3">
-                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-rose-soft to-teal/15 text-xl">{it.emoji}</span>
+                  <Thumb item={it} zoom={false} className="size-11 rounded-lg" />
                   <div className="min-w-0 flex-1"><p className="truncate text-sm font-medium">{it.name}</p><p className="text-xs text-ink/55">Sampai {o.end}</p></div>
                   <StatusBadge status={o.status} />
                 </div>
@@ -75,7 +75,7 @@ export default function MitraDashboard() {
         <div className="grid gap-2.5 sm:grid-cols-3">
           {mitraItems.map((it) => (
             <div key={it.slug} className="flex items-center gap-3 rounded-2xl bg-white/60 p-3">
-              <span className="text-2xl">{it.emoji}</span>
+              <Thumb item={it} zoom={false} className="size-11 rounded-lg" />
               <div className="min-w-0 flex-1"><p className="truncate text-sm font-medium">{it.name}</p><p className="text-xs text-ink/55">{rupiah(it.price)}/hari</p></div>
               <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${it.status === 'Aktif' ? 'bg-teal/10 text-teal-deep' : 'bg-ink/8 text-ink/50'}`}>{it.status}</span>
             </div>

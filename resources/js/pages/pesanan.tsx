@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { Check, ChevronRight, Star } from 'lucide-react';
-import { Button, StatusBadge, rupiah } from '@/components/rs';
+import { Button, StatusBadge, rupiah, Thumb } from '@/components/rs';
 import { AppShell } from '@/layouts/shell';
 import { bySlug, orders } from '@/lib/dummy';
 
@@ -23,7 +23,7 @@ function Detail({ o }) {
       <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_1.1fr]">
         <div className="space-y-4">
           <div className="glass flex items-center gap-4 rounded-3xl p-5">
-            <div className="grid size-20 place-items-center rounded-2xl bg-gradient-to-br from-rose-soft to-teal/20 text-4xl">{it.emoji}</div>
+            <Thumb item={it} zoom={false} className="size-20 rounded-xl" />
             <div className="flex-1"><p className="font-medium">{it.name}</p><p className="text-xs text-ink/55">{o.start} sampai {o.end}</p><div className="mt-2"><StatusBadge status={o.status} /></div></div>
           </div>
           <dl className="glass space-y-2.5 rounded-3xl p-5">{row('Kode', o.id)}{row('Mitra', o.mitra)}{row('Pengambilan', o.lokasi)}{row('Pembayaran', o.bayar)}{row('Total', rupiah(o.total))}</dl>
@@ -34,7 +34,7 @@ function Detail({ o }) {
             <ol className="space-y-4">
               {steps.map((s, i) => {
                 const done = o.status !== 'Dibatalkan' && i <= at[o.status];
-                return <li key={s} className="flex items-center gap-3 text-sm"><span className={`grid size-6 place-items-center rounded-full ${done ? 'bg-teal text-white' : 'border border-ink/15 bg-white/70'}`}>{done && <Check size={13} />}</span><span className={done ? '' : 'text-ink/40'}>{s}</span></li>;
+                return <li key={s} className="flex items-center gap-3 text-sm"><span className={`grid size-6 place-items-center rounded-full ${done ? 'bg-teal-deep text-cream' : 'border border-ink/15 bg-white/70'}`}>{done && <Check size={13} />}</span><span className={done ? '' : 'text-ink/40'}>{s}</span></li>;
               })}
             </ol>
           </div>
@@ -73,13 +73,13 @@ export default function Pesanan({ id = null }) {
       {detail ? <Detail o={detail} /> : (
         <>
           <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">Pesanan saya</h1>
-          <div className="mt-5 flex gap-2 overflow-x-auto">{tabs.map(([l], n) => <button key={l} onClick={() => setTab(n)} className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium ${tab === n ? 'bg-teal text-white shadow-md' : 'glass text-ink/70'}`}>{l}</button>)}</div>
+          <div className="mt-5 flex gap-2 overflow-x-auto">{tabs.map(([l], n) => <button key={l} onClick={() => setTab(n)} className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium ${tab === n ? 'bg-teal-deep text-cream shadow-md' : 'glass text-ink/70'}`}>{l}</button>)}</div>
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             {orders.filter(tabs[tab][1]).map((o) => {
               const it = bySlug(o.slug);
               return (
                 <Link key={o.id} href={`/pesanan/${o.id}`} className="glass flex items-center gap-4 rounded-3xl p-4 transition hover:-translate-y-0.5">
-                  <div className="grid size-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-rose-soft to-teal/20 text-3xl">{it.emoji}</div>
+                  <Thumb item={it} zoom={false} className="size-16 rounded-xl" />
                   <div className="min-w-0 flex-1"><p className="truncate font-medium">{it.name}</p><p className="text-xs text-ink/55">{o.start} sampai {o.end}</p><div className="mt-1.5"><StatusBadge status={o.status} /></div></div>
                   <ChevronRight size={18} className="text-ink/30" />
                 </Link>

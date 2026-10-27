@@ -15,24 +15,24 @@ export default function Katalog({ kategori = 'semua', q = '' }) {
   return (
     <AppShell>
       <Head title="Katalog" />
-      <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">Katalog barang</h1>
+      <h1 className="rs-rise text-3xl text-teal-deep sm:text-4xl">Katalog barang</h1>
       <p className="mt-1 text-sm text-ink/60">{list.length} barang tersedia untuk disewa.</p>
       <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-center">
-        <label className="glass flex flex-1 items-center gap-2 rounded-2xl px-4 py-3">
+        <label className="glass flex flex-1 items-center gap-2 rounded-xl px-4 py-3 transition focus-within:border-teal/50 focus-within:ring-4 focus-within:ring-teal/10">
           <Search size={17} className="text-teal" />
           <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Cari barang" className="w-full bg-transparent text-sm outline-none placeholder:text-ink/40" />
         </label>
-        <select value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Urutkan" className="glass rounded-2xl px-4 py-3 text-sm outline-none">
+        <select value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Urutkan" className="glass rounded-xl px-4 py-3 text-sm outline-none">
           <option value="populer">Paling populer</option><option value="murah">Harga terendah</option><option value="mahal">Harga tertinggi</option>
         </select>
       </div>
       <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
         {cats.map(([s, l]) => (
-          <Link key={s} href={`/katalog/${s}`} className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${kategori === s ? 'bg-teal text-white shadow-md' : 'glass text-ink/70 hover:bg-white/80'}`}>{l}</Link>
+          <Link key={s} href={`/katalog/${s}`} className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${kategori === s ? 'bg-teal-deep text-cream shadow-sm' : 'glass text-ink/70 hover:bg-white/80'}`}>{l}</Link>
         ))}
       </div>
       {list.length ? (
-        <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4">{list.map((it) => <ProductCard key={it.slug} item={it} />)}</div>
+        <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4">{list.map((it, n) => <ProductCard key={it.slug} item={it} index={n} />)}</div>
       ) : (
         <div className="glass mt-8 grid place-items-center rounded-3xl px-6 py-16 text-center">
           <SearchX size={36} className="text-rose-deep/60" />

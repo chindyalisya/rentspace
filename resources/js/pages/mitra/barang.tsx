@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { PackagePlus, Pencil } from 'lucide-react';
-import { btn, rupiah } from '@/components/rs';
+import { btn, rupiah, Thumb } from '@/components/rs';
 import { AppShell, MitraTabs } from '@/layouts/shell';
 import { mitraItems } from '@/lib/dummy';
 
@@ -20,13 +20,13 @@ export default function MitraBarang() {
       </div>
       <MitraTabs active="/mitra/barang" />
       <div className="mt-5 flex gap-2 overflow-x-auto">
-        {tabs.map(([l], n) => <button key={l} onClick={() => setTab(n)} className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium ${tab === n ? 'bg-teal text-white shadow-sm' : 'glass text-ink/70'}`}>{l}</button>)}
+        {tabs.map(([l], n) => <button key={l} onClick={() => setTab(n)} className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium ${tab === n ? 'bg-teal-deep text-cream shadow-sm' : 'glass text-ink/70'}`}>{l}</button>)}
       </div>
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((it) => (
           <div key={it.slug} className="glass rounded-3xl p-4">
             <div className="flex items-start gap-3">
-              <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-rose-soft to-teal/15 text-2xl">{it.emoji}</span>
+              <Thumb item={it} zoom={false} className="size-14 rounded-xl" />
               <div className="min-w-0 flex-1">
                 <p className="truncate font-medium">{it.name}</p>
                 <p className="text-sm text-teal">{rupiah(it.price)}<span className="text-xs text-ink/50">/hari</span></p>

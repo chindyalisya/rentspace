@@ -21,11 +21,11 @@ export default function TambahBarang() {
     return (
       <AppShell>
         <Head title="Barang ditambahkan" />
-        <div className="glass mx-auto mt-8 grid max-w-md place-items-center rounded-[2rem] p-10 text-center">
+        <div className="glass mx-auto mt-8 grid max-w-md place-items-center rounded-3xl p-10 text-center">
           <CheckCircle2 size={48} className="text-teal" />
           <h1 className="mt-4 text-2xl font-semibold text-teal-deep">Barang berhasil ditambahkan</h1>
           <p className="mt-1 text-sm text-ink/60">{f.nama || 'Barangmu'} sudah tampil di katalog dan siap disewa.</p>
-          <button onClick={() => router.visit('/mitra/barang')} className="mt-7 rounded-2xl bg-gradient-to-b from-teal to-teal-deep px-6 py-3 text-sm font-medium text-white">Lihat barang saya</button>
+          <button onClick={() => router.visit('/mitra/barang')} className="mt-7 rounded-2xl bg-teal-deep px-6 py-3 text-sm font-medium text-white">Lihat barang saya</button>
         </div>
       </AppShell>
     );
@@ -40,14 +40,14 @@ export default function TambahBarang() {
       <div className="mt-6 flex items-center gap-2">
         {stepLabel.map((l, i) => (
           <div key={l} className="flex flex-1 items-center gap-2">
-            <span className={`grid size-7 shrink-0 place-items-center rounded-full text-xs font-medium ${step > i ? 'bg-teal text-white' : step === i + 1 ? 'bg-teal/15 text-teal-deep ring-2 ring-teal/30' : 'bg-ink/8 text-ink/40'}`}>{i + 1}</span>
+            <span className={`grid size-7 shrink-0 place-items-center rounded-full text-xs font-medium ${step > i ? 'bg-teal-deep text-cream' : step === i + 1 ? 'bg-teal/15 text-teal-deep ring-2 ring-teal/30' : 'bg-ink/8 text-ink/40'}`}>{i + 1}</span>
             <span className={`hidden text-xs sm:block ${step === i + 1 ? 'font-medium text-teal-deep' : 'text-ink/45'}`}>{l}</span>
             {i < 3 && <span className={`h-px flex-1 ${step > i + 1 ? 'bg-teal/50' : 'bg-ink/10'}`} />}
           </div>
         ))}
       </div>
 
-      <div className="glass mt-6 rounded-[2rem] p-6 sm:p-8">
+      <div className="glass mt-6 rounded-3xl p-6 sm:p-8">
         {step === 1 && (
           <div className="space-y-4">
             <Field label="Nama barang" placeholder="Contoh: Canon EOS 30D" value={f.nama} onChange={set('nama')} />

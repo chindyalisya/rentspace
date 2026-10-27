@@ -10,18 +10,24 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 void createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
-    layout: (name) => {
-        switch (true) {
-            case ['welcome', 'onboarding', 'home', 'verifikasi', 'auth/login', 'auth/register'].includes(name):
-                return null;
-            case name.startsWith('auth/'):
-                return AuthLayout;
-            case name.startsWith('settings/'):
-                return [AppLayout, SettingsLayout];
-            default:
-                return AppLayout;
-        }
-    },
+   layout: (name) => {
+    const tanpaLayout = [
+        'welcome', 'onboarding', 'home', 'katalog', 'barang', 'keranjang',
+        'checkout', 'pesanan', 'profil', 'verifikasi',
+        'auth/login', 'auth/register',
+    ];
+
+    switch (true) {
+        case tanpaLayout.includes(name) || name.startsWith('mitra/'):
+            return null;
+        case name.startsWith('auth/'):
+            return AuthLayout;
+        case name.startsWith('settings/'):
+            return [AppLayout, SettingsLayout];
+        default:
+            return AppLayout;
+    }
+},
     strictMode: true,
     withApp(app) {
         return (

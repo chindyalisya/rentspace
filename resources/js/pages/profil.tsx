@@ -12,10 +12,9 @@ export default function Profil() {
     <AppShell>
       <Head title="Profil" />
       <div className="mx-auto max-w-2xl">
-        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-rose to-rose-soft p-6 sm:p-8">
-          <div className="pointer-events-none absolute -right-10 -top-10 size-48 rounded-full bg-cream/60 blur-3xl" />
+        <div className="relative overflow-hidden rounded-3xl bg-rose-soft p-6 sm:p-8">
           <div className="relative flex items-center gap-4">
-            <span className="grid size-16 place-items-center rounded-full bg-white/80 text-2xl font-medium text-teal shadow-md">{name[0]}</span>
+            <span className="grid size-16 place-items-center rounded-full bg-teal-deep font-display text-2xl font-semibold text-cream shadow-md">{name[0]}</span>
             <div><p className="text-xl font-semibold text-teal-deep">{name}</p><p className="text-sm text-teal-deep/70">{user?.email}</p></div>
           </div>
         </div>

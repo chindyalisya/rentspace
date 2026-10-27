@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
-import { btn, rupiah } from '@/components/rs';
+import { btn, rupiah, Thumb } from '@/components/rs';
 import { AppShell } from '@/layouts/shell';
 import { bySlug } from '@/lib/dummy';
 import { daysBetween, getCart, setCart } from '@/lib/cart';
@@ -32,7 +32,7 @@ export default function Keranjang() {
           <div className="space-y-3">
             {rows.map(({ it, days, ...c }) => (
               <div key={c.slug} className="glass flex items-center gap-4 rounded-3xl p-4">
-                <div className="grid size-20 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-rose-soft to-teal/20 text-4xl">{it.emoji}</div>
+                <Thumb item={it} zoom={false} className="size-20 rounded-xl" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium">{it.name}</p>
                   <p className="text-xs text-ink/55">{c.start} sampai {c.end}, {days} hari</p>
@@ -47,7 +47,7 @@ export default function Keranjang() {
               </div>
             ))}
           </div>
-          <aside className="glass h-fit rounded-[2rem] p-6 lg:sticky lg:top-24">
+          <aside className="glass h-fit rounded-3xl p-6 lg:sticky lg:top-24">
             <p className="font-medium text-teal-deep">Ringkasan</p>
             <dl className="mt-4 space-y-2.5 text-sm">
               <div className="flex justify-between"><dt className="text-ink/60">Total sewa</dt><dd>{rupiah(sewa)}</dd></div>
