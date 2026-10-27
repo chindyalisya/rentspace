@@ -1,101 +1,291 @@
 // @ts-nocheck
 import { Head, Link } from '@inertiajs/react';
-import { BadgeCheck, CalendarDays, GraduationCap, Laptop, MapPin, Search, Shirt, ShieldCheck, Tent } from 'lucide-react';
-import { Button, ProductCard, rupiah } from '@/components/rs';
+import { Search } from 'lucide-react';
+import { ProductCard, Reveal, Thumb, rupiah } from '@/components/rs';
 import { AppShell } from '@/layouts/shell';
+import { bySlug, pick } from '@/lib/dummy';
 
 const categories = [
-  ['alat-camping', 'Alat camping', Tent, 'bg-teal/12 text-teal-deep'],
-  ['elektronik', 'Elektronik', Laptop, 'bg-rose/25 text-rose-deep'],
-  ['fashion', 'Fashion', Shirt, 'bg-rose-soft text-rose-deep'],
-  ['akademik', 'Akademik', GraduationCap, 'bg-teal/8 text-teal-deep'],
+    [
+        'alat-camping',
+        'Alat camping',
+        'Tenda, carrier, sepatu gunung',
+        bySlug('tenda-dome-4p'),
+    ],
+    [
+        'elektronik',
+        'Elektronik',
+        'Kamera, speaker, stop kontak',
+        bySlug('canon-eos-30d'),
+    ],
+    [
+        'fashion',
+        'Fashion',
+        'Kemeja, rok, sepatu formal',
+        bySlug('kemeja-putih-pria'),
+    ],
+    [
+        'akademik',
+        'Akademik',
+        'Almamater, kalkulator',
+        bySlug('kalkulator-scientific'),
+    ],
 ];
-const trust = [[ShieldCheck, 'Deposit dijamin sistem', 'Cair otomatis setelah barang kembali'], [BadgeCheck, 'Mitra terverifikasi', 'Identitas dicek lewat KTM'], [MapPin, 'Ambil di titik kampus', 'Atau minta diantar']];
+const steps = [
+    [
+        '01',
+        'Pilih barang',
+        'Cari yang kamu butuhkan dari sesama mahasiswa di sekitar kampus.',
+    ],
+    [
+        '02',
+        'Tentukan tanggal',
+        'Pilih tanggal mulai dan selesai, total biaya langsung terlihat.',
+    ],
+    [
+        '03',
+        'Ambil dan kembalikan',
+        'Ambil di titik kampus atau minta diantar. Deposit kembali setelah barang pulang.',
+    ],
+];
+
+const Head2 = ({ title, sub, href = '/katalog' }) => (
+    <div className="mb-6 flex items-end justify-between gap-4">
+        <div>
+            <h2 className="text-2xl text-teal-deep sm:text-3xl">{title}</h2>
+            {sub && <p className="mt-1 text-sm text-ink/55">{sub}</p>}
+        </div>
+        <Link
+            href={href}
+            className="shrink-0 text-sm font-semibold text-teal underline-offset-4 transition hover:text-teal-deep hover:underline"
+        >
+            Lihat semua
+        </Link>
+    </div>
+);
+const Grid = ({ items }) => (
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
+        {items.map((it, n) => (
+            <Reveal key={it.slug} delay={n * 70}>
+                <ProductCard item={it} animate={false} />
+            </Reveal>
+        ))}
+    </div>
+);
 
 /* Data dummy: nanti ganti props dari controller, Inertia::render('home', [...]) */
-const dummy = [
-  { slug: 'canon-eos-30d', name: 'Canon EOS 30D', emoji: '📷', price: 50000, rating: 4.9 },
-  { slug: 'kalkulator-scientific', name: 'Kalkulator Scientific', emoji: '🧮', price: 5000, rating: 4.8 },
-  { slug: 'almamater-unnes', name: 'Almamater UNNES', emoji: '🎓', price: 20000, rating: 4.8 },
-  { slug: 'kemeja-putih-wanita', name: 'Kemeja Putih Wanita', emoji: '👔', price: 15000, rating: 4.7 },
-];
-const dummyBest = [
-  { slug: 'carrier-eiger-45l', name: 'Carrier Eiger 45L', emoji: '🎒', price: 30000, rating: 4.9 },
-  { slug: 'tenda-dome-4p', name: 'Tenda Dome 4 Orang', emoji: '⛺', price: 45000, rating: 4.8 },
-  { slug: 'speaker-jbl', name: 'Speaker JBL', emoji: '🔊', price: 35000, rating: 4.7 },
-  { slug: 'trekking-pole', name: 'Trekking Pole', emoji: '🥾', price: 10000, rating: 4.6 },
-];
-
-const Head2 = ({ title, light = false }) => (
-  <div className="mb-5 flex items-end justify-between">
-    <h2 className={`text-xl font-semibold tracking-tight sm:text-2xl ${light ? 'text-white' : 'text-teal-deep'}`}>{title}</h2>
-    <Link href="/katalog" className={`text-sm font-semibold ${light ? 'text-rose-soft' : 'text-teal'}`}>Lihat semua</Link>
-  </div>
+const dummy = pick(
+    'canon-eos-30d',
+    'almamater-unnes',
+    'kemeja-putih-wanita',
+    'sneakers-putih',
 );
-const Grid = ({ items }) => <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">{items.map((it) => <ProductCard key={it.slug} item={it} />)}</div>;
+const dummyBest = pick(
+    'tenda-dome-4p',
+    'carrier-eiger-45l',
+    'speaker-jbl',
+    'sepatu-gunung',
+);
 
-export default function Home({ featured = dummy, best = dummyBest, cartCount = 0 }) {
-  return (
-    <AppShell cartCount={cartCount}>
-      <Head title="Beranda" />
+export default function Home({
+    featured = dummy,
+    best = dummyBest,
+    cartCount = 0,
+}) {
+    const cam = bySlug('canon-eos-30d');
+    return (
+        <AppShell cartCount={cartCount}>
+            <Head title="Beranda" />
 
-      <section className="relative overflow-hidden rounded-[2.25rem] bg-gradient-to-br from-rose-soft via-rose/60 to-cream p-6 sm:p-10 lg:p-12">
-        <div className="pointer-events-none absolute -right-20 -top-24 size-80 rounded-full bg-cream/70 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-28 left-1/4 size-72 rounded-full bg-teal/25 blur-3xl" />
-        <div className="relative grid items-center gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-12">
-          <div>
-            <h1 className="rs-rise text-4xl font-semibold leading-[1.06] tracking-tight text-teal-deep sm:text-5xl">Sewa perlengkapan kuliahmu, bayar per hari.</h1>
-            <p className="rs-rise mt-4 max-w-lg text-teal-deep/80" style={{ animationDelay: '.1s' }}>Kamera, almamater, sampai alat camping dari sesama mahasiswa. Deposit aman sampai barang kembali.</p>
-            <Link href="/cari" className="glass rs-rise mt-7 flex max-w-xl items-center gap-3 rounded-2xl p-2 pl-5 text-sm text-ink/55 transition hover:bg-white/80" style={{ animationDelay: '.2s' }}>
-              <Search size={18} /><span className="flex-1">Cari kamera, tenda, almamater</span>
-              <span className="rounded-xl bg-teal px-5 py-2.5 font-semibold text-white">Cari</span>
-            </Link>
-          </div>
-          <div className="glass rs-rise rounded-[2rem] p-6" style={{ animationDelay: '.3s' }}>
-            <p className="text-xs font-semibold text-ink/55">Contoh perhitungan sewa</p>
-            <p className="mt-2 text-lg font-semibold text-teal-deep">Canon EOS 30D</p>
-            <div className="mt-3 flex items-center gap-2 rounded-2xl bg-white/75 px-4 py-3 text-sm"><CalendarDays size={17} className="text-teal" />12 sampai 15 Sep 2026, 3 hari</div>
-            <dl className="mt-4 space-y-2.5 text-sm">
-              <div className="flex justify-between"><dt className="text-ink/65">Sewa 3 hari</dt><dd className="font-semibold">{rupiah(150000)}</dd></div>
-              <div className="flex justify-between"><dt className="text-ink/65">Deposit (dikembalikan)</dt><dd className="font-semibold">{rupiah(100000)}</dd></div>
-              <div className="flex justify-between border-t border-ink/10 pt-3 text-base"><dt className="font-semibold">Total dibayar</dt><dd className="font-semibold text-teal">{rupiah(250000)}</dd></div>
-            </dl>
-            <Button className="mt-5">Sewa sekarang</Button>
-          </div>
-        </div>
-      </section>
+            <section className="grid items-center gap-10 py-2 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:py-6">
+                <div>
+                    <p className="rs-rise mb-4 text-xs font-semibold tracking-[.18em] text-rose-deep uppercase">
+                        Sewa antar mahasiswa
+                    </p>
+                    <h1
+                        className="rs-rise text-4xl leading-[1.08] text-teal-deep sm:text-5xl lg:text-[3.4rem]"
+                        style={{ '--d': '60ms' }}
+                    >
+                        Butuh barang untuk kuliah? Sewa saja, bayar per hari.
+                    </h1>
+                    <p
+                        className="rs-rise mt-5 max-w-lg leading-relaxed text-ink/65"
+                        style={{ '--d': '140ms' }}
+                    >
+                        Kamera, almamater, sampai alat camping dari sesama
+                        mahasiswa. Deposit aman sampai barang kembali.
+                    </p>
+                    <Link
+                        href="/cari"
+                        className="rs-rise mt-7 flex max-w-xl items-center gap-3 rounded-2xl border border-ink/10 bg-white p-2 pl-5 text-sm text-ink/50 shadow-sm transition duration-300 hover:border-teal/40 hover:shadow-md"
+                        style={{ '--d': '220ms' }}
+                    >
+                        <Search size={18} />
+                        <span className="flex-1">
+                            Cari kamera, tenda, almamater
+                        </span>
+                        <span className="rounded-xl bg-teal-deep px-5 py-2.5 font-semibold text-cream">
+                            Cari
+                        </span>
+                    </Link>
+                    <dl
+                        className="rs-rise mt-8 flex gap-8 text-sm"
+                        style={{ '--d': '300ms' }}
+                    >
+                        {[
+                            ['17+', 'barang tersedia'],
+                            ['Rp5rb', 'mulai per hari'],
+                            ['100%', 'deposit dijamin'],
+                        ].map(([a, b]) => (
+                            <div key={b}>
+                                <dt className="font-display text-2xl font-semibold text-teal-deep">
+                                    {a}
+                                </dt>
+                                <dd className="text-xs text-ink/55">{b}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                </div>
 
-      <section className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-        {categories.map(([slug, label, Icon, tone]) => (
-          <Link key={slug} href={`/katalog/${slug}`} className={`group glass flex h-28 flex-col justify-between rounded-3xl p-4 transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:h-32`}>
-            <span className={`grid size-10 place-items-center rounded-xl transition duration-300 group-hover:scale-110 ${tone}`}><Icon size={20} /></span>
-            <p className="text-sm font-medium text-ink">{label}</p>
-          </Link>
-        ))}
-      </section>
+                <div
+                    className="rs-pop relative mx-auto grid aspect-[1/1.05] w-full max-w-lg grid-cols-6 grid-rows-6 gap-3 sm:gap-4"
+                    style={{ '--d': '120ms' }}
+                >
+                    <Thumb
+                        item={bySlug('tenda-dome-4p')}
+                        eager
+                        className="col-span-4 row-span-4 row-start-1 rounded-3xl shadow-lg"
+                    />
+                    <Thumb
+                        item={cam}
+                        eager
+                        className="col-span-2 col-start-5 row-span-3 row-start-1 rounded-3xl shadow-lg"
+                    />
+                    <Thumb
+                        item={bySlug('speaker-jbl')}
+                        eager
+                        className="col-span-2 col-start-5 row-span-3 row-start-4 rounded-3xl shadow-lg"
+                    />
+                    <Thumb
+                        item={bySlug('carrier-eiger-45l')}
+                        eager
+                        className="col-span-4 row-span-2 row-start-5 rounded-3xl shadow-lg"
+                    />
+                    <div className="rs-float glass absolute right-4 -bottom-4 left-4 flex items-center gap-3 rounded-2xl p-3 sm:right-[-0.5rem] sm:left-auto sm:w-72 sm:p-3.5">
+                        <Thumb
+                            item={cam}
+                            zoom={false}
+                            className="size-12 rounded-xl"
+                        />
+                        <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-semibold">
+                                {cam.name}
+                            </p>
+                            <p className="text-xs text-ink/55">
+                                3 hari, deposit {rupiah(cam.deposit)}
+                            </p>
+                        </div>
+                        <p className="text-sm font-bold text-teal-deep">
+                            {rupiah(cam.price * 3)}
+                        </p>
+                    </div>
+                </div>
+            </section>
 
-      <section className="mt-6 grid gap-3 sm:grid-cols-3">
-        {trust.map(([Icon, t, d]) => (
-          <div key={t} className="glass flex items-start gap-3 rounded-2xl p-4">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-rose-soft text-rose-deep"><Icon size={19} /></span>
-            <div><p className="text-sm font-semibold">{t}</p><p className="text-xs text-ink/55">{d}</p></div>
-          </div>
-        ))}
-      </section>
+            <section className="mt-16 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+                {categories.map(([slug, label, sub, it], n) => (
+                    <Reveal key={slug} delay={n * 80}>
+                        <Link
+                            href={`/katalog/${slug}`}
+                            className="group rs-card relative block overflow-hidden rounded-2xl"
+                        >
+                            <Thumb item={it} className="aspect-[4/5] w-full" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#14262c]/75 via-transparent to-transparent" />
+                            <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+                                <p className="font-display text-xl font-semibold">
+                                    {label}
+                                </p>
+                                <p className="mt-0.5 text-xs text-white/75">
+                                    {sub}
+                                </p>
+                            </div>
+                        </Link>
+                    </Reveal>
+                ))}
+            </section>
 
-      <section className="mt-12"><Head2 title="Produk pilihan" /><Grid items={featured} /></section>
+            <section className="mt-20">
+                <Reveal>
+                    <Head2
+                        title="Produk pilihan"
+                        sub="Paling sering dicari minggu ini"
+                    />
+                </Reveal>
+                <Grid items={featured} />
+            </section>
 
-      <section className="mt-12 rounded-[2.25rem] bg-teal/8 p-5 sm:p-8">
-        <Head2 title="Best Rent" /><Grid items={best} />
-      </section>
+            <section className="mt-20 grid gap-8 rounded-3xl bg-sand/70 p-6 sm:p-10 lg:grid-cols-3">
+                <Reveal className="lg:col-span-3">
+                    <h2 className="text-2xl text-teal-deep sm:text-3xl">
+                        Cara kerjanya
+                    </h2>
+                </Reveal>
+                {steps.map(([n, t, d], k) => (
+                    <Reveal key={n} delay={k * 100}>
+                        <p className="font-display text-4xl font-semibold text-rose-deep/70">
+                            {n}
+                        </p>
+                        <p className="mt-2 font-semibold text-teal-deep">{t}</p>
+                        <p className="mt-1 text-sm leading-relaxed text-ink/65">
+                            {d}
+                        </p>
+                    </Reveal>
+                ))}
+            </section>
 
-      <section className="glass mt-12 flex flex-col items-start gap-4 rounded-[2rem] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-        <div>
-          <h2 className="text-xl font-semibold tracking-tight text-teal-deep">Punya barang yang jarang dipakai?</h2>
-          <p className="mt-1 text-sm text-ink/65">Sewakan ke sesama mahasiswa dan dapat penghasilan tambahan.</p>
-        </div>
-        <Link href="/register" className="shrink-0 rounded-2xl bg-gradient-to-b from-rose to-rose-deep px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose/30 transition hover:brightness-105">Jadi mitra</Link>
-      </section>
-    </AppShell>
-  );
+            <section className="mt-20">
+                <Reveal>
+                    <Head2
+                        title="Best Rent"
+                        sub="Perlengkapan outdoor dan elektronik favorit"
+                    />
+                </Reveal>
+                <Grid items={best} />
+            </section>
+
+            <Reveal
+                as="section"
+                className="mt-20 overflow-hidden rounded-3xl bg-teal-deep text-cream"
+            >
+                <div className="grid items-center md:grid-cols-[1.3fr_1fr]">
+                    <div className="p-7 sm:p-10">
+                        <h2 className="text-2xl sm:text-3xl">
+                            Punya barang yang jarang dipakai?
+                        </h2>
+                        <p className="mt-2 max-w-md text-sm leading-relaxed text-cream/70">
+                            Sewakan ke sesama mahasiswa dan dapat penghasilan
+                            tambahan. Kamu yang atur harga dan tanggalnya.
+                        </p>
+                        <Link
+                            href="/mitra/dashboard"
+                            className="mt-6 inline-flex rounded-xl bg-cream px-6 py-3 text-sm font-semibold text-teal-deep transition duration-300 hover:bg-white hover:shadow-lg active:scale-[.97]"
+                        >
+                            Jadi mitra
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 p-4 md:p-6">
+                        {['rok-hitam', 'sepatu-gunung', 'sleeping-bag'].map(
+                            (s) => (
+                                <Thumb
+                                    key={s}
+                                    item={bySlug(s)}
+                                    className="aspect-[3/4] rounded-xl"
+                                />
+                            ),
+                        )}
+                    </div>
+                </div>
+            </Reveal>
+        </AppShell>
+    );
 }
