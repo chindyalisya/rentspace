@@ -40,13 +40,27 @@ function UploadBox({ label, hint, file, onFile, selfie }) {
     );
 }
 
-/* status dari controller: none | pending | rejected */
+/* status dari controller: none | pending | approved | rejected */
 export default function Verifikasi({ status = 'none', reason = null }) {
     const [step, setStep] = useState(1);
     const { data, setData, post, processing, errors } = useForm({
         ktm: null,
         selfie: null,
     });
+
+        if (status === 'approved') {
+        return (
+            <AuthShell
+                title="Identitas terverifikasi"
+                subtitle="Akunmu sudah terverifikasi. Selamat menyewa!"
+            >
+                <Head title="Terverifikasi" />
+                <Link href="/home" className={btn('primary')}>
+                    Mulai sewa
+                </Link>
+            </AuthShell>
+        );
+    }
 
     if (status === 'pending') {
         return (

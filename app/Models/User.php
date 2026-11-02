@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+
 
 /**
  * @property int $id
@@ -42,4 +45,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+        public function verifikasi(): HasOne
+    {
+        return $this->hasOne(Verifikasi::class);
+    }
 }
+
