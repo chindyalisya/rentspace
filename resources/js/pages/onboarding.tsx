@@ -31,19 +31,15 @@ export default function Onboarding() {
     const [leaving, setLeaving] = useState(false);
     const x0 = useRef(0);
 
-    useEffect(() => {
-        if (i !== -1) return;
-        const t1 = setTimeout(() => setLeaving(true), 1500);
-        const t2 = setTimeout(() => {
-            if (localStorage.getItem('rs_onboarded'))
-                router.visit('/login', { replace: true });
-            else setI(0);
-        }, 1900);
-        return () => {
-            clearTimeout(t1);
-            clearTimeout(t2);
-        };
-    }, [i]);
+   useEffect(() => {
+    if (i !== -1) return;
+    const t1 = setTimeout(() => setLeaving(true), 1500);
+    const t2 = setTimeout(() => setI(0), 1900);
+    return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+    };
+}, [i]);
 
     const finish = (to) => {
         localStorage.setItem('rs_onboarded', '1');

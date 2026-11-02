@@ -8,11 +8,11 @@ export const rupiah = (n) => 'Rp' + Number(n).toLocaleString('id-ID');
 export function Logo({ light = false, className = '' }) {
     return (
         <span className={`inline-flex items-center gap-2 ${className}`}>
-            <span
-                className={`grid size-8 place-items-center rounded-lg font-display text-[17px] leading-none font-semibold ${light ? 'bg-cream text-teal-deep' : 'bg-teal-deep text-cream'}`}
-            >
-                R
-            </span>
+            <img
+                src="/img/logo-rentspace.png"
+                alt="RentSpace"
+                className={`size-8 shrink-0 object-contain ${light ? 'rounded-lg bg-cream p-0.5' : ''}`}
+            />
             <span
                 className={`font-display text-xl font-semibold tracking-tight ${light ? 'text-cream' : 'text-teal-deep'}`}
             >
