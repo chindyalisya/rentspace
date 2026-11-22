@@ -15,11 +15,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Aman dijalankan berulang (password dev: "password")
+        foreach ([
+            ['Admin RentSpace', 'admin@rentspace.test', true],
+            ['Test User', 'test@example.com', false],
+        ] as [$name, $email, $admin]) {
+            User::firstOrNew(['email' => $email])->forceFill([
+                'name' => $name,
+                'password' => 'password',
+                'email_verified_at' => now(),
+                'is_admin' => $admin,
+            ])->save();
+        }
     }
 }

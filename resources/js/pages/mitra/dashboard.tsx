@@ -18,10 +18,26 @@ import {
 } from '@/lib/dummy';
 
 const stats = [
-    [Wallet, 'Pendapatan bulan ini', rupiah(s.pendapatanBulanIni)],
-    [TrendingUp, 'Sewa aktif', `${s.sewaAktif} barang`],
-    [PackageCheck, 'Barang aktif', `${s.barangAktif} barang`],
-    [Star, 'Rating mitra', s.rating],
+    [
+        Wallet,
+        'Pendapatan bulan ini',
+        rupiah(s.pendapatanBulanIni),
+        'bg-clay text-white',
+        '/mitra/laporan',
+    ],
+    [
+        TrendingUp,
+        'Sewa aktif',
+        `${s.sewaAktif} barang`,
+        'bg-teal/10 text-teal-deep',
+    ],
+    [
+        PackageCheck,
+        'Barang aktif',
+        `${s.barangAktif} barang`,
+        'bg-rose-soft text-rose-deep',
+    ],
+    [Star, 'Rating mitra', s.rating, 'bg-sand text-teal-deep'],
 ];
 const aktif = orders.filter((o) =>
     ['Sedang Disewa', 'Jatuh Tempo'].includes(o.status),
@@ -40,17 +56,38 @@ export default function MitraDashboard() {
             <MitraTabs active="/mitra/dashboard" />
 
             <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {stats.map(([Icon, l, v]) => (
-                    <div key={l} className="glass rounded-3xl p-4">
-                        <span className="grid size-9 place-items-center rounded-xl bg-teal/10 text-teal-deep">
-                            <Icon size={17} />
-                        </span>
-                        <p className="mt-3 text-lg font-semibold text-teal-deep">
-                            {v}
-                        </p>
-                        <p className="text-xs text-ink/55">{l}</p>
-                    </div>
-                ))}
+                {stats.map(([Icon, l, v, tone, href]) => {
+                    const Card = href ? Link : 'div';
+                    return (
+                        <Card
+                            key={l}
+                            {...(href ? { href } : {})}
+                            className={`rounded-3xl p-4 ${href ? 'rs-card bg-clay text-white' : 'glass'}`}
+                        >
+                            <span
+                                className={`grid size-9 place-items-center rounded-xl ${href ? 'bg-white/15' : tone}`}
+                            >
+                                <Icon size={17} />
+                            </span>
+                            <p
+                                className={`mt-3 text-lg font-semibold ${href ? '' : 'text-teal-deep'}`}
+                            >
+                                {v}
+                            </p>
+                            <p
+                                className={`text-xs ${href ? 'text-white/90' : 'text-ink/55'}`}
+                            >
+                                {l}
+                            </p>
+                            {href && (
+                                <p className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold">
+                                    Lihat laporan
+                                    <ChevronRight size={12} />
+                                </p>
+                            )}
+                        </Card>
+                    );
+                })}
             </div>
 
             <div className="mt-8 grid gap-6 lg:grid-cols-2">

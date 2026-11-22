@@ -335,3 +335,63 @@ export const bookedDates = {
     ],
     'carrier-eiger-45l': ['2026-10-08', '2026-10-09'],
 };
+
+/* Transaksi mitra untuk Laporan penjualan (dummy, deterministik). Ganti dengan props dari controller.
+   Tanggal acuan = hari ini di aplikasi; data dibuat mundur dari tanggal ini. */
+export const LAPORAN_REF = '2026-11-22';
+const hariMs = 86400000;
+let seed = 11;
+const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const penyewaDummy = [
+    'Bintang',
+    'Naya',
+    'Rizky',
+    'Salsa',
+    'Dimas',
+    'Putri',
+    'Fajar',
+    'Alya',
+    'Reza',
+    'Intan',
+];
+const slugLaporan = [
+    'canon-eos-30d',
+    'carrier-eiger-45l',
+    'tenda-dome-4p',
+    'speaker-jbl',
+];
+export const laporanTransaksi = Array.from({ length: 72 }, (_, i) => {
+    const lalu = Math.floor(Math.pow(rnd(), 1.3) * 170);
+    const tanggal = new Date(
+        new Date(LAPORAN_REF + 'T00:00:00Z').getTime() - lalu * hariMs,
+    )
+        .toISOString()
+        .slice(0, 10);
+    const slug = slugLaporan[Math.floor(rnd() * slugLaporan.length)];
+    const hari = 1 + Math.floor(rnd() * 4);
+    const r = rnd();
+    const status =
+        lalu <= 2 && r < 0.6
+            ? 'Sedang Disewa'
+            : r < 0.08
+              ? 'Dibatalkan'
+              : 'Selesai';
+    return {
+        id: `TR-${1100 + i}`,
+        tanggal,
+        slug,
+        penyewa: penyewaDummy[Math.floor(rnd() * penyewaDummy.length)],
+        hari,
+        total: bySlug(slug).price * hari,
+        status,
+    };
+}).sort((a, b) => (a.tanggal < b.tanggal ? 1 : a.tanggal > b.tanggal ? -1 : 0));
+
+// Pendapatan bulan ini di dashboard mitra mengikuti data laporan
+mitraStats.pendapatanBulanIni = laporanTransaksi
+    .filter(
+        (t) =>
+            t.status !== 'Dibatalkan' &&
+            t.tanggal.startsWith(LAPORAN_REF.slice(0, 7)),
+    )
+    .reduce((a, t) => a + t.total, 0);

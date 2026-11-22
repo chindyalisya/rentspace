@@ -38,12 +38,16 @@ export default function Dompet() {
                     Dompet dan deposit
                 </h1>
 
-                <div className="mt-5 rounded-3xl bg-teal-deep p-6 text-cream sm:p-8">
-                    <p className="text-sm text-cream/70">Saldo tersedia</p>
-                    <p className="mt-1 font-display text-4xl font-semibold">
+                <div className="relative mt-5 overflow-hidden rounded-3xl bg-clay p-6 text-white sm:p-8">
+                    <span className="pointer-events-none absolute -top-12 -right-10 size-48 rounded-full border-[22px] border-white/10" />
+                    <span className="pointer-events-none absolute -right-2 -bottom-16 size-40 rounded-full border-[18px] border-white/10" />
+                    <p className="relative text-sm text-white/90">
+                        Saldo tersedia
+                    </p>
+                    <p className="relative mt-1 font-display text-4xl font-semibold">
                         {rupiah(saldo)}
                     </p>
-                    <p className="mt-4 flex items-center gap-2 text-xs text-cream/70">
+                    <p className="relative mt-4 flex items-center gap-2 text-xs text-white/90">
                         <ShieldCheck size={15} />
                         Deposit ditahan {rupiah(deposit)}, kembali setelah
                         barang dikembalikan.

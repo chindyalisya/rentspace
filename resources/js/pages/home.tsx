@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Head, Link } from '@inertiajs/react';
-import { Search } from 'lucide-react';
+import { BadgeCheck, MapPin, Search, ShieldCheck } from 'lucide-react';
 import { ProductCard, Reveal, Thumb, rupiah } from '@/components/rs';
 import { AppShell } from '@/layouts/shell';
 import { bySlug, pick } from '@/lib/dummy';
@@ -11,25 +11,38 @@ const categories = [
         'Alat camping',
         'Tenda, carrier, sepatu gunung',
         bySlug('tenda-dome-4p'),
+        'foto',
     ],
     [
         'elektronik',
         'Elektronik',
         'Kamera, speaker, stop kontak',
         bySlug('canon-eos-30d'),
+        'bg-clay text-white',
     ],
     [
         'fashion',
         'Fashion',
         'Kemeja, rok, sepatu formal',
         bySlug('kemeja-putih-pria'),
+        'bg-rose-soft text-teal-deep',
     ],
     [
         'akademik',
         'Akademik',
         'Almamater, kalkulator',
         bySlug('kalkulator-scientific'),
+        'bg-teal-deep text-cream',
     ],
+];
+const jaminan = [
+    [
+        BadgeCheck,
+        'Pengguna terverifikasi',
+        'KTM atau KTP dicek sebelum bisa menyewa.',
+    ],
+    [ShieldCheck, 'Deposit dijamin', 'Dikembalikan setelah barang pulang.'],
+    [MapPin, 'Ambil di titik kampus', 'Atau minta diantar ke lokasimu.'],
 ];
 const steps = [
     [
@@ -99,7 +112,7 @@ export default function Home({
 
             <section className="grid items-center gap-10 py-2 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:py-6">
                 <div>
-                    <p className="rs-rise mb-4 text-xs font-semibold tracking-[.18em] text-rose-deep uppercase">
+                    <p className="rs-rise mb-4 text-xs font-semibold tracking-[.18em] text-clay uppercase">
                         Sewa antar mahasiswa
                     </p>
                     <h1
@@ -192,23 +205,78 @@ export default function Home({
                 </div>
             </section>
 
-            <section className="mt-16 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-                {categories.map(([slug, label, sub, it], n) => (
-                    <Reveal key={slug} delay={n * 80}>
+            <Reveal
+                as="section"
+                className="mt-14 grid gap-4 rounded-3xl bg-clay-soft p-5 sm:grid-cols-3 sm:p-6"
+            >
+                {jaminan.map(([Icon, t, d]) => (
+                    <div key={t} className="flex items-start gap-3">
+                        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-clay text-white">
+                            <Icon size={18} />
+                        </span>
+                        <div>
+                            <p className="text-sm font-semibold text-teal-deep">
+                                {t}
+                            </p>
+                            <p className="mt-0.5 text-xs leading-relaxed text-ink/65">
+                                {d}
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </Reveal>
+
+            <section className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:grid-rows-2">
+                {categories.map(([slug, label, sub, it, tone], n) => (
+                    <Reveal
+                        key={slug}
+                        delay={n * 80}
+                        className={n === 0 ? 'col-span-2 lg:row-span-2' : ''}
+                    >
                         <Link
                             href={`/katalog/${slug}`}
-                            className="group rs-card relative block overflow-hidden rounded-2xl"
+                            className={`group rs-card relative block h-full overflow-hidden rounded-2xl ${tone === 'foto' ? '' : tone}`}
                         >
-                            <Thumb item={it} className="aspect-[4/5] w-full" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#14262c]/75 via-transparent to-transparent" />
-                            <div className="absolute inset-x-0 bottom-0 p-4 text-white">
-                                <p className="font-display text-xl font-semibold">
-                                    {label}
-                                </p>
-                                <p className="mt-0.5 text-xs text-white/75">
-                                    {sub}
-                                </p>
-                            </div>
+                            {tone === 'foto' ? (
+                                <>
+                                    <Thumb
+                                        item={it}
+                                        className="h-full min-h-72 w-full"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#14262c]/75 via-transparent to-transparent" />
+                                    <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                                        <p className="font-display text-2xl font-semibold">
+                                            {label}
+                                        </p>
+                                        <p className="mt-0.5 text-sm text-white/80">
+                                            {sub}
+                                        </p>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="relative z-10 flex h-full min-h-44 flex-col justify-between p-4">
+                                        <div>
+                                            <p className="font-display text-xl font-semibold">
+                                                {label}
+                                            </p>
+                                            <p className="mt-0.5 max-w-[60%] text-xs opacity-85">
+                                                {sub}
+                                            </p>
+                                        </div>
+                                        <span className="text-xs font-semibold underline-offset-4 group-hover:underline">
+                                            Lihat semua
+                                        </span>
+                                    </div>
+                                    <div className="absolute -right-3 -bottom-3 size-24 rotate-6 overflow-hidden rounded-2xl shadow-lg transition duration-500 group-hover:rotate-3 group-hover:scale-105 sm:size-28">
+                                        <Thumb
+                                            item={it}
+                                            zoom={false}
+                                            className="size-full"
+                                        />
+                                    </div>
+                                </>
+                            )}
                         </Link>
                     </Reveal>
                 ))}
@@ -224,19 +292,19 @@ export default function Home({
                 <Grid items={featured} />
             </section>
 
-            <section className="mt-20 grid gap-8 rounded-3xl bg-sand/70 p-6 sm:p-10 lg:grid-cols-3">
+            <section className="mt-20 grid gap-8 rounded-3xl bg-clay p-6 text-cream sm:p-10 lg:grid-cols-3">
                 <Reveal className="lg:col-span-3">
-                    <h2 className="text-2xl text-teal-deep sm:text-3xl">
+                    <h2 className="text-2xl text-white sm:text-3xl">
                         Cara kerjanya
                     </h2>
                 </Reveal>
                 {steps.map(([n, t, d], k) => (
                     <Reveal key={n} delay={k * 100}>
-                        <p className="font-display text-4xl font-semibold text-rose-deep/70">
+                        <p className="font-display text-4xl font-semibold text-rose">
                             {n}
                         </p>
-                        <p className="mt-2 font-semibold text-teal-deep">{t}</p>
-                        <p className="mt-1 text-sm leading-relaxed text-ink/65">
+                        <p className="mt-2 font-semibold text-white">{t}</p>
+                        <p className="mt-1 text-sm leading-relaxed text-cream/90">
                             {d}
                         </p>
                     </Reveal>

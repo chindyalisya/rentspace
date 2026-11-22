@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Verifikasi extends Model
 {
     protected $fillable = [
-        'user_id', 'foto_ktm', 'foto_selfie', 'status', 'alasan', 'diperiksa_at',
+        'user_id', 'jenis_dokumen', 'foto_ktm', 'foto_selfie', 'status', 'alasan', 'diperiksa_at',
     ];
 
     protected function casts(): array

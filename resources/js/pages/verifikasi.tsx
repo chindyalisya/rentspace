@@ -1,54 +1,21 @@
 // @ts-nocheck
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Camera, Hourglass } from 'lucide-react';
+import { Hourglass } from 'lucide-react';
+import { DocTypeToggle, UploadBox } from '@/components/identity-upload';
 import { Button, btn } from '@/components/rs';
 import { AuthShell } from '@/layouts/shell';
-
-function UploadBox({ label, hint, file, onFile, selfie }) {
-    const url = useMemo(
-        () => (file ? URL.createObjectURL(file) : null),
-        [file],
-    );
-    return (
-        <label className="block cursor-pointer">
-            <div
-                className={`grid h-52 place-items-center overflow-hidden border-2 border-dashed border-teal/40 bg-white/60 transition hover:bg-white/80 ${selfie ? 'mx-auto w-44 rounded-[50%]' : 'rounded-3xl'}`}
-            >
-                {url ? (
-                    <img
-                        src={url}
-                        alt={label}
-                        className="size-full object-cover"
-                    />
-                ) : (
-                    <span className="text-center text-xs text-ink/55">
-                        <Camera className="mx-auto mb-2 text-teal" />
-                        {label}
-                    </span>
-                )}
-            </div>
-            <input
-                type="file"
-                accept="image/*"
-                capture={selfie ? 'user' : undefined}
-                hidden
-                onChange={(e) => onFile(e.target.files[0] ?? null)}
-            />
-            <p className="mt-3 text-center text-xs text-ink/55">{hint}</p>
-        </label>
-    );
-}
 
 /* status dari controller: none | pending | approved | rejected */
 export default function Verifikasi({ status = 'none', reason = null }) {
     const [step, setStep] = useState(1);
     const { data, setData, post, processing, errors } = useForm({
+        jenis: 'ktm',
         ktm: null,
         selfie: null,
     });
 
-        if (status === 'approved') {
+    if (status === 'approved') {
         return (
             <AuthShell
                 title="Identitas terverifikasi"
@@ -91,7 +58,9 @@ export default function Verifikasi({ status = 'none', reason = null }) {
             <div className="mb-5 flex items-center gap-3 text-xs font-semibold text-ink/70">
                 <span>
                     Langkah {step} dari 2:{' '}
-                    {step === 1 ? 'Foto KTP atau KTM' : 'Foto selfie'}
+                    {step === 1
+                        ? `Foto ${data.jenis.toUpperCase()}`
+                        : 'Foto selfie'}
                 </span>
                 <span className="ml-auto flex gap-1.5">
                     {[1, 2].map((n) => (
@@ -102,10 +71,16 @@ export default function Verifikasi({ status = 'none', reason = null }) {
                     ))}
                 </span>
             </div>
+            {step === 1 && (
+                <DocTypeToggle
+                    value={data.jenis}
+                    onChange={(v) => setData('jenis', v)}
+                />
+            )}
             {step === 1 ? (
                 <UploadBox
                     label="Ambil foto atau pilih dari galeri"
-                    hint="Pastikan foto jelas, tidak buram, semua sisi terlihat."
+                    hint={`Foto ${data.jenis.toUpperCase()} harus jelas, tidak buram, dan semua sisi terlihat.`}
                     file={data.ktm}
                     onFile={(f) => setData('ktm', f)}
                 />
@@ -118,9 +93,9 @@ export default function Verifikasi({ status = 'none', reason = null }) {
                     onFile={(f) => setData('selfie', f)}
                 />
             )}
-            {(errors.ktm || errors.selfie) && (
+            {(errors.jenis || errors.ktm || errors.selfie) && (
                 <p className="mt-2 text-xs text-red-600">
-                    {errors.ktm || errors.selfie}
+                    {errors.jenis || errors.ktm || errors.selfie}
                 </p>
             )}
             <div className="mt-7 space-y-3">
@@ -144,10 +119,12 @@ export default function Verifikasi({ status = 'none', reason = null }) {
                     </>
                 )}
                 <Link
-                    href="/home"
-                    className="block text-center text-xs font-medium text-ink/55"
+                    href="/logout"
+                    method="post"
+                    as="button"
+                    className="block w-full text-center text-xs font-medium text-ink/55"
                 >
-                    Lewati dulu, verifikasi nanti
+                    Keluar
                 </Link>
             </div>
         </AuthShell>

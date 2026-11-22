@@ -11,6 +11,11 @@ class VerifikasiController extends Controller
 {
     public function show(Request $request)
     {
+        // Admin tidak perlu verifikasi identitas
+        if ($request->user()->is_admin) {
+            return redirect()->route('admin.verifikasi');
+        }
+
         $v = $request->user()->verifikasi;
 
         return Inertia::render('verifikasi', [
@@ -22,6 +27,7 @@ class VerifikasiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'jenis'  => ['required', 'in:ktm,ktp'],
             'ktm'    => ['required', 'image', 'max:4096'],
             'selfie' => ['required', 'image', 'max:4096'],
         ]);
@@ -37,6 +43,7 @@ class VerifikasiController extends Controller
         }
 
         $request->user()->verifikasi()->updateOrCreate([], [
+            'jenis_dokumen' => $request->input('jenis'),
             'foto_ktm'     => $request->file('ktm')->store('verifikasi'),
             'foto_selfie'  => $request->file('selfie')->store('verifikasi'),
             'status'       => 'pending',

@@ -25,6 +25,7 @@ export function Logo({ light = false, className = '' }) {
 const variants = {
     primary: 'bg-teal-deep text-cream shadow-sm hover:bg-teal hover:shadow-md',
     rose: 'bg-rose-deep text-white shadow-sm hover:bg-[#a96a5f] hover:shadow-md',
+    clay: 'bg-clay text-white shadow-sm hover:bg-clay-deep hover:shadow-md',
     soft: 'glass text-teal-deep hover:bg-white',
 };
 export const btn = (v = 'primary', extra = '') =>

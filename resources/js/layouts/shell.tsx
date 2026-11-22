@@ -1,8 +1,9 @@
 // @ts-nocheck
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import {
     Bell,
     Home,
+    LogOut,
     ReceiptText,
     Search,
     ShoppingBag,
@@ -168,18 +169,78 @@ export function MitraTabs({ active }) {
         ['/mitra/barang', 'Barang saya'],
         ['/mitra/tambah-barang', 'Tambah barang'],
         ['/mitra/kalender', 'Kalender & permintaan'],
+        ['/mitra/laporan', 'Laporan penjualan'],
     ];
     return (
         <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
             {tabs.map(([h, l]) => (
-                <a
+                <Link
                     key={h}
                     href={h}
                     className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition duration-300 ${active === h ? 'bg-teal-deep text-cream shadow-sm' : 'glass text-ink/70 hover:bg-white'}`}
                 >
                     {l}
-                </a>
+                </Link>
             ))}
         </div>
+    );
+}
+
+/* Halaman khusus admin: header ringan, tanpa bottom nav */
+export function AdminShell({ children }) {
+    const { url, props } = usePage();
+    const name = props.auth?.user?.name;
+    const links = [['/admin/verifikasi', 'Verifikasi identitas']];
+    return (
+        <Page>
+            <header className="rs-bar sticky top-0 z-30">
+                <div className="mx-auto flex h-16 max-w-5xl items-center gap-3 px-4 md:px-6">
+                    <Link href="/home">
+                        <Logo />
+                    </Link>
+                    <span className="rounded-full bg-rose-soft px-2.5 py-1 text-xs font-semibold text-rose-deep">
+                        Admin
+                    </span>
+                    <nav className="ml-4 hidden gap-1 sm:flex">
+                        {links.map(([h, l]) => (
+                            <Link
+                                key={h}
+                                href={h}
+                                className={`rounded-lg px-3.5 py-2 text-sm font-medium transition duration-300 ${url.startsWith(h) ? 'bg-teal-deep/10 text-teal-deep' : 'text-ink/60 hover:text-teal-deep'}`}
+                            >
+                                {l}
+                            </Link>
+                        ))}
+                    </nav>
+                    <div className="ml-auto flex items-center gap-1">
+                        {name && (
+                            <span className="mr-2 hidden text-sm text-ink/60 md:block">
+                                {name}
+                            </span>
+                        )}
+                        <Link
+                            href="/home"
+                            className="rounded-xl px-3 py-2 text-sm font-medium text-ink/70 transition hover:bg-white/80"
+                        >
+                            Ke aplikasi
+                        </Link>
+                        <button
+                            type="button"
+                            aria-label="Keluar"
+                            onClick={() => router.post('/logout')}
+                            className="grid size-10 place-items-center rounded-xl text-ink/70 transition hover:bg-white/80"
+                        >
+                            <LogOut size={18} />
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <main
+                key={url}
+                className="rs-page mx-auto max-w-5xl px-4 py-6 md:px-6 md:py-10"
+            >
+                {children}
+            </main>
+        </Page>
     );
 }

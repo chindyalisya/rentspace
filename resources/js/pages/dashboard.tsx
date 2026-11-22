@@ -1,36 +1,102 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import { dashboard } from '@/routes';
+// @ts-nocheck
+import { Head, Link, usePage } from '@inertiajs/react';
+import {
+    BadgeCheck,
+    ChevronRight,
+    ReceiptText,
+    Search,
+    ShieldCheck,
+    Store,
+} from 'lucide-react';
+import { AppShell } from '@/layouts/shell';
 
 export default function Dashboard() {
+    const user = usePage().props.auth?.user;
+    const tones = [
+        'bg-teal/10 text-teal-deep',
+        'bg-clay-soft text-clay',
+        'bg-rose-soft text-rose-deep',
+        'bg-sand text-teal-deep',
+    ];
+    const links = [
+        [
+            Search,
+            'Cari barang sewaan',
+            'Jelajahi katalog barang dari mahasiswa lain',
+            '/katalog',
+        ],
+        [
+            ReceiptText,
+            'Pesanan saya',
+            'Pantau status sewa dan pengembalian',
+            '/pesanan',
+        ],
+        [
+            Store,
+            'Mode mitra',
+            'Kelola barang yang kamu sewakan',
+            '/mitra/dashboard',
+        ],
+        [
+            BadgeCheck,
+            'Verifikasi identitas',
+            'Cek status verifikasi KTM atau KTP kamu',
+            '/verifikasi',
+        ],
+    ];
+    // Admin tidak perlu verifikasi identitas
+    if (user?.is_admin) {
+        links.splice(
+            links.findIndex((l) => l[3] === '/verifikasi'),
+            1,
+        );
+        links.push([
+            ShieldCheck,
+            'Panel admin',
+            'Tinjau pengajuan verifikasi identitas',
+            '/admin/verifikasi',
+        ]);
+    }
+
     return (
-        <>
+        <AppShell>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
+            <div className="rounded-3xl bg-rose-soft p-6 sm:p-8">
+                <p className="text-sm text-teal-deep/70">
+                    Selamat datang kembali
+                </p>
+                <h1 className="mt-1 text-3xl font-semibold tracking-tight text-teal-deep">
+                    Halo, {user?.name ?? 'Pengguna'}
+                </h1>
+                <p className="mt-2 max-w-md text-sm text-teal-deep/70">
+                    Mau sewa barang untuk kuliahmu, atau sewakan barang yang
+                    jarang terpakai?
+                </p>
             </div>
-        </>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                {links.map(([Icon, title, desc, href], n) => (
+                    <Link
+                        key={href}
+                        href={href}
+                        className="glass rs-card flex items-center gap-4 rounded-3xl p-5"
+                    >
+                        <span
+                            className={`grid size-11 shrink-0 place-items-center rounded-2xl ${tones[n % tones.length]}`}
+                        >
+                            <Icon size={20} />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                            <span className="block font-semibold text-teal-deep">
+                                {title}
+                            </span>
+                            <span className="block text-xs text-ink/55">
+                                {desc}
+                            </span>
+                        </span>
+                        <ChevronRight size={16} className="text-ink/30" />
+                    </Link>
+                ))}
+            </div>
+        </AppShell>
     );
 }
-
-Dashboard.layout = {
-    breadcrumbs: [
-        {
-            title: 'Dashboard',
-            href: dashboard(),
-        },
-    ],
-};

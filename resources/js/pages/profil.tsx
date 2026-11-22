@@ -6,6 +6,7 @@ import {
     HelpCircle,
     LogOut,
     MapPin,
+    ShieldCheck,
     Store,
     UserRound,
     Wallet,
@@ -24,6 +25,12 @@ const menu = [
 export default function Profil() {
     const user = usePage().props.auth?.user;
     const name = user?.name ?? 'Pengguna';
+    const items = user?.is_admin
+        ? [
+              [ShieldCheck, 'Panel admin', '/admin/verifikasi'],
+              ...menu.filter(([, , h]) => h !== '/verifikasi'),
+          ]
+        : menu;
     return (
         <AppShell>
             <Head title="Profil" />
@@ -44,7 +51,7 @@ export default function Profil() {
                     </div>
                 </div>
                 <div className="glass mt-4 divide-y divide-ink/5 overflow-hidden rounded-3xl">
-                    {menu.map(([Icon, l, href]) => (
+                    {items.map(([Icon, l, href]) => (
                         <Link
                             key={l}
                             href={href}
