@@ -6,6 +6,7 @@ import {
     HelpCircle,
     LogOut,
     MapPin,
+    Palette,
     ShieldCheck,
     Store,
     UserRound,
@@ -18,6 +19,7 @@ const menu = [
     [BadgeCheck, 'Verifikasi identitas', '/verifikasi'],
     [MapPin, 'Alamat tersimpan', '/alamat'],
     [Wallet, 'Dompet dan deposit', '/dompet'],
+    [Palette, 'Tampilan (terang / gelap)', '/settings/appearance'],
     [Store, 'Mode mitra', '/mitra/dashboard'],
     [HelpCircle, 'Pusat bantuan', '/bantuan'],
 ];
@@ -37,14 +39,14 @@ export default function Profil() {
             <div className="mx-auto max-w-2xl">
                 <div className="relative overflow-hidden rounded-3xl bg-rose-soft p-6 sm:p-8">
                     <div className="relative flex items-center gap-4">
-                        <span className="grid size-16 place-items-center rounded-full bg-teal-deep font-display text-2xl font-semibold text-cream shadow-md">
+                        <span className="grid size-16 place-items-center rounded-full bg-teal-deep font-display text-2xl font-semibold text-paper shadow-md">
                             {name[0]}
                         </span>
                         <div>
-                            <p className="text-xl font-semibold text-teal-deep">
+                            <p className="text-xl font-semibold text-teal-ink">
                                 {name}
                             </p>
-                            <p className="text-sm text-teal-deep/70">
+                            <p className="text-sm text-teal-ink/70">
                                 {user?.email}
                             </p>
                         </div>
@@ -55,7 +57,7 @@ export default function Profil() {
                         <Link
                             key={l}
                             href={href}
-                            className="flex items-center gap-3 px-5 py-4 text-sm transition hover:bg-white/60"
+                            className="flex items-center gap-3 px-5 py-4 text-sm transition hover:bg-surface/60"
                         >
                             <Icon size={18} className="text-teal" />
                             <span className="flex-1">{l}</span>
@@ -65,7 +67,7 @@ export default function Profil() {
                 </div>
                 <button
                     onClick={() => router.post('/logout')}
-                    className="glass mt-4 flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium text-rose-deep transition hover:bg-white/80"
+                    className="glass mt-4 flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium text-rose-deep transition hover:bg-surface/80"
                 >
                     <LogOut size={17} />
                     Keluar

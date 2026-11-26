@@ -11,10 +11,10 @@ export function Logo({ light = false, className = '' }) {
             <img
                 src="/img/logo-rentspace.png"
                 alt="RentSpace"
-                className={`size-8 shrink-0 object-contain ${light ? 'rounded-lg bg-cream p-0.5' : ''}`}
+                className={`size-8 shrink-0 object-contain ${light ? 'rounded-lg bg-paper p-0.5' : ''}`}
             />
             <span
-                className={`font-display text-xl font-semibold tracking-tight ${light ? 'text-cream' : 'text-teal-deep'}`}
+                className={`font-display text-xl font-semibold tracking-tight ${light ? 'text-paper' : 'text-teal-ink'}`}
             >
                 RentSpace
             </span>
@@ -23,10 +23,10 @@ export function Logo({ light = false, className = '' }) {
 }
 
 const variants = {
-    primary: 'bg-teal-deep text-cream shadow-sm hover:bg-teal hover:shadow-md',
-    rose: 'bg-rose-deep text-white shadow-sm hover:bg-[#a96a5f] hover:shadow-md',
+    primary: 'bg-teal-deep text-paper shadow-sm hover:bg-teal hover:shadow-md',
+    rose: 'bg-rose-deep text-white dark:text-cream shadow-sm hover:bg-[#a96a5f] hover:shadow-md',
     clay: 'bg-clay text-white shadow-sm hover:bg-clay-deep hover:shadow-md',
-    soft: 'glass text-teal-deep hover:bg-white',
+    soft: 'glass text-teal-ink hover:bg-surface',
 };
 export const btn = (v = 'primary', extra = '') =>
     `inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal active:scale-[.97] disabled:pointer-events-none disabled:opacity-50 ${variants[v]} ${extra}`;
@@ -44,7 +44,7 @@ export function Field({ icon: Icon, label, error, type = 'text', ...p }) {
                     {label}
                 </span>
                 <span
-                    className={`flex items-center gap-2.5 rounded-xl border bg-white px-4 py-3 transition duration-300 focus-within:border-teal focus-within:ring-4 focus-within:ring-teal/15 ${error ? 'border-red-400' : 'border-ink/15'}`}
+                    className={`flex items-center gap-2.5 rounded-xl border bg-surface px-4 py-3 transition duration-300 focus-within:border-teal focus-within:ring-4 focus-within:ring-teal/15 ${error ? 'border-red-400' : 'border-ink/15'}`}
                 >
                     {Icon && (
                         <Icon size={17} className="shrink-0 text-teal/70" />
@@ -70,20 +70,20 @@ export function Field({ icon: Icon, label, error, type = 'text', ...p }) {
                     )}
                 </span>
             </label>
-            {error && <p className="mt-1.5 text-xs text-red-600">{error}</p>}
+            {error && <p className="mt-1.5 text-xs text-red-600 dark:text-red-400">{error}</p>}
         </div>
     );
 }
 
 /* Nama status disepakati tim, pakai persis ini di semua halaman */
 const badge = {
-    'Menunggu Konfirmasi': 'bg-neutral-200/80 text-neutral-700',
-    Dikonfirmasi: 'bg-sky-100 text-sky-800',
-    'Sedang Disewa': 'bg-emerald-100 text-emerald-800',
-    'Jatuh Tempo': 'bg-orange-100 text-orange-800',
+    'Menunggu Konfirmasi': 'bg-neutral-200/80 text-neutral-700 dark:bg-white/10 dark:text-neutral-300',
+    Dikonfirmasi: 'bg-sky-100 text-sky-800 dark:bg-sky-400/15 dark:text-sky-300',
+    'Sedang Disewa': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-400/15 dark:text-emerald-300',
+    'Jatuh Tempo': 'bg-orange-100 text-orange-800 dark:bg-orange-400/15 dark:text-orange-300',
     Dikembalikan: 'bg-teal/10 text-teal',
-    Selesai: 'bg-ink text-white',
-    Dibatalkan: 'bg-red-100 text-red-700',
+    Selesai: 'bg-ink text-cream',
+    Dibatalkan: 'bg-red-100 text-red-700 dark:bg-red-400/15 dark:text-red-300',
 };
 export const StatusBadge = ({ status }) => (
     <span
@@ -134,7 +134,8 @@ export function Reveal({
     );
 }
 
-/* Foto barang. item.cut = foto berlatar putih, dibaur ke warna kartu. Ukuran diatur lewat className */
+/* Foto barang. item.cut = foto berlatar putih, dibaur (multiply) ke latar krem terang tetap,
+   supaya tidak menghitam di mode gelap. Ukuran diatur lewat className */
 export function Thumb({ item, className = '', zoom = true, eager = false }) {
     const [ok, setOk] = useState(false);
     const [bad, setBad] = useState(false);
@@ -144,7 +145,7 @@ export function Thumb({ item, className = '', zoom = true, eager = false }) {
     }, []);
     return (
         <div
-            className={`${ok || bad ? '' : 'rs-thumb'} relative shrink-0 overflow-hidden bg-sand ${className}`}
+            className={`${ok || bad ? '' : 'rs-thumb'} relative shrink-0 overflow-hidden ${item?.cut ? 'bg-[#f0e9dc]' : 'bg-sand'} ${className}`}
         >
             {item?.img && !bad ? (
                 <img
@@ -181,7 +182,7 @@ export function ProductCard({
         >
             <div className="relative">
                 <Thumb item={item} className="aspect-[5/4] w-full" />
-                <span className="absolute top-2.5 left-2.5 flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold text-teal-deep shadow-sm">
+                <span className="absolute top-2.5 left-2.5 flex items-center gap-1.5 rounded-full bg-surface/90 px-2.5 py-1 text-[10px] font-semibold text-teal-ink shadow-sm">
                     <i className="size-1.5 rounded-full bg-emerald-500" />
                     Tersedia
                 </span>
@@ -192,7 +193,7 @@ export function ProductCard({
                 </p>
                 <p className="mt-0.5 text-xs text-ink/50">{item.owner}</p>
                 <div className="mt-2 flex items-center justify-between">
-                    <p className="text-sm font-bold text-teal-deep">
+                    <p className="text-sm font-bold text-teal-ink">
                         {rupiah(item.price)}
                         <span className="text-xs font-medium text-ink/50">
                             /hari

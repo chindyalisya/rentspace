@@ -12,9 +12,9 @@ const tabs = [
 ];
 
 const statusUi = {
-    pending: ['Menunggu', 'bg-amber-100 text-amber-800'],
-    approved: ['Disetujui', 'bg-emerald-100 text-emerald-800'],
-    rejected: ['Ditolak', 'bg-red-100 text-red-700'],
+    pending: ['Menunggu', 'bg-amber-100 text-amber-800 dark:bg-amber-400/15 dark:text-amber-300'],
+    approved: ['Disetujui', 'bg-emerald-100 text-emerald-800 dark:bg-emerald-400/15 dark:text-emerald-300'],
+    rejected: ['Ditolak', 'bg-red-100 text-red-700 dark:bg-red-400/15 dark:text-red-300'],
 };
 
 const tanggal = (v) =>
@@ -30,10 +30,10 @@ const tanggal = (v) =>
 
 const base =
     'inline-flex items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition duration-300 active:scale-[.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal disabled:pointer-events-none disabled:opacity-50';
-const btnApprove = `${base} bg-teal-deep text-cream shadow-sm hover:bg-teal`;
+const btnApprove = `${base} bg-teal-deep text-paper shadow-sm hover:bg-teal`;
 const btnReject = `${base} border border-rose-deep/30 text-rose-deep hover:bg-rose-soft`;
-const btnDanger = `${base} bg-rose-deep text-white shadow-sm hover:bg-[#a96a5f]`;
-const btnGhost = `${base} text-ink/60 hover:bg-white/80`;
+const btnDanger = `${base} bg-rose-deep text-white shadow-sm hover:bg-[#a96a5f] dark:text-cream`;
+const btnGhost = `${base} text-ink/60 hover:bg-surface/80`;
 
 function Foto({ id, jenis, label, className, onOpen }) {
     const src = `/admin/verifikasi/${id}/foto/${jenis}`;
@@ -94,11 +94,11 @@ export default function AdminVerifikasi({ items = [] }) {
         <AdminShell>
             <Head title="Verifikasi identitas" />
             <div className="flex items-center gap-3">
-                <span className="grid size-11 place-items-center rounded-2xl bg-teal/10 text-teal-deep">
+                <span className="grid size-11 place-items-center rounded-2xl bg-teal/10 text-teal-ink">
                     <ShieldCheck size={22} />
                 </span>
                 <div>
-                    <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">
+                    <h1 className="text-3xl font-semibold tracking-tight text-teal-ink">
                         Verifikasi identitas
                     </h1>
                     <p className="text-sm text-ink/60">
@@ -114,11 +114,11 @@ export default function AdminVerifikasi({ items = [] }) {
                         key={k}
                         type="button"
                         onClick={() => setTab(k)}
-                        className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition duration-300 ${tab === k ? 'bg-teal-deep text-cream shadow-sm' : 'glass text-ink/70 hover:bg-white'}`}
+                        className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition duration-300 ${tab === k ? 'bg-teal-deep text-paper shadow-sm' : 'glass text-ink/70 hover:bg-surface'}`}
                     >
                         {l}
                         <span
-                            className={`rounded-full px-2 py-0.5 text-xs ${tab === k ? 'bg-white/20' : 'bg-ink/5'}`}
+                            className={`rounded-full px-2 py-0.5 text-xs ${tab === k ? 'bg-paper/20' : 'bg-ink/5'}`}
                         >
                             {count(k)}
                         </span>
@@ -129,7 +129,7 @@ export default function AdminVerifikasi({ items = [] }) {
             <div className="mt-5 space-y-4">
                 {list.length === 0 && (
                     <div className="glass rounded-3xl p-10 text-center">
-                        <p className="font-medium text-teal-deep">
+                        <p className="font-medium text-teal-ink">
                             Tidak ada pengajuan di sini.
                         </p>
                         <p className="mt-1 text-sm text-ink/55">
@@ -167,7 +167,7 @@ export default function AdminVerifikasi({ items = [] }) {
                                 </div>
                                 <div className="min-w-0 flex-1">
                                     <div className="flex flex-wrap items-center gap-2">
-                                        <p className="truncate text-lg font-semibold text-teal-deep">
+                                        <p className="truncate text-lg font-semibold text-teal-ink">
                                             {it.user?.name}
                                         </p>
                                         <span
@@ -175,7 +175,7 @@ export default function AdminVerifikasi({ items = [] }) {
                                         >
                                             {label}
                                         </span>
-                                        <span className="rounded-full bg-teal/10 px-2.5 py-1 text-xs font-semibold text-teal-deep">
+                                        <span className="rounded-full bg-teal/10 px-2.5 py-1 text-xs font-semibold text-teal-ink">
                                             {jenis}
                                         </span>
                                     </div>
@@ -188,7 +188,7 @@ export default function AdminVerifikasi({ items = [] }) {
                                             ` · Diperiksa ${tanggal(it.diperiksa_at)}`}
                                     </p>
                                     {it.status === 'rejected' && it.alasan && (
-                                        <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-xs text-red-700">
+                                        <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-xs text-red-700 dark:bg-red-400/15 dark:text-red-300">
                                             Alasan penolakan: {it.alasan}
                                         </p>
                                     )}
@@ -213,7 +213,7 @@ export default function AdminVerifikasi({ items = [] }) {
                                                 setAlasan(e.target.value)
                                             }
                                             placeholder="Contoh: foto KTM buram, mohon upload ulang"
-                                            className="w-full rounded-xl border border-ink/15 bg-white p-3 text-sm text-ink outline-none transition placeholder:text-ink/35 focus:border-teal focus:ring-4 focus:ring-teal/15"
+                                            className="w-full rounded-xl border border-ink/15 bg-surface p-3 text-sm text-ink outline-none transition placeholder:text-ink/35 focus:border-teal focus:ring-4 focus:ring-teal/15"
                                         />
                                         <div className="mt-3 flex flex-wrap justify-end gap-2">
                                             <button
@@ -284,7 +284,7 @@ export default function AdminVerifikasi({ items = [] }) {
                     aria-modal="true"
                     aria-label={foto.label}
                     onClick={() => setFoto(null)}
-                    className="fixed inset-0 z-50 grid place-items-center bg-ink/75 p-4 backdrop-blur-sm"
+                    className="fixed inset-0 z-50 grid place-items-center bg-black/75 p-4 backdrop-blur-sm"
                 >
                     <button
                         type="button"
@@ -298,7 +298,7 @@ export default function AdminVerifikasi({ items = [] }) {
                         src={foto.src}
                         alt={foto.label}
                         onClick={(e) => e.stopPropagation()}
-                        className="max-h-[85vh] max-w-full rounded-2xl bg-white object-contain shadow-2xl"
+                        className="max-h-[85vh] max-w-full rounded-2xl bg-surface object-contain shadow-2xl"
                     />
                 </div>
             )}

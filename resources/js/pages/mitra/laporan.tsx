@@ -183,17 +183,17 @@ export default function Laporan() {
             <Head title="Laporan penjualan" />
             <div className="flex flex-wrap items-end justify-between gap-3">
                 <div>
-                    <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">
+                    <h1 className="text-3xl font-semibold tracking-tight text-teal-ink">
                         Laporan penjualan
                     </h1>
-                    <p className="mt-1 text-sm text-ink/60">
+                    <p className="mt-1 text-sm text-ink/75">
                         Pendapatan dan transaksi sewa dari barang milikmu.
                     </p>
                 </div>
                 <button
                     type="button"
                     onClick={() => unduhCsv(mode, data)}
-                    className="glass inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-teal-deep transition hover:bg-white active:scale-[.97]"
+                    className="glass inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-teal-ink transition hover:bg-surface active:scale-[.97]"
                 >
                     <Download size={16} />
                     Unduh CSV
@@ -216,7 +216,7 @@ export default function Laporan() {
                         role="tab"
                         aria-selected={mode === k}
                         onClick={() => ganti(k)}
-                        className={`rounded-xl px-5 py-2 text-sm font-semibold transition ${mode === k ? 'bg-white text-teal-deep shadow-sm' : 'text-ink/55'}`}
+                        className={`rounded-xl px-5 py-2 text-sm font-semibold transition ${mode === k ? 'bg-surface text-teal-ink shadow-sm dark:bg-teal-deep dark:text-paper' : 'text-ink/75 hover:text-teal-ink'}`}
                     >
                         {l}
                     </button>
@@ -225,12 +225,12 @@ export default function Laporan() {
 
             <section className="glass mt-4 rounded-3xl p-5 sm:p-6">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <p className="font-medium text-teal-deep">
+                    <p className="font-semibold text-teal-ink">
                         Pendapatan per {satuan}
                     </p>
-                    <p className="text-xs text-ink/55">
+                    <p className="text-sm text-ink/75">
                         Total {data.length} {satuan} terakhir:{' '}
-                        <b className="text-teal-deep">{rupiah(total)}</b>
+                        <b className="text-teal-ink">{rupiah(total)}</b>
                     </p>
                 </div>
                 <div className="mt-5 flex gap-2 sm:gap-3">
@@ -244,30 +244,32 @@ export default function Laporan() {
                             className="group flex flex-1 flex-col items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal"
                         >
                             <span className="flex h-44 w-full flex-col justify-end">
-                                <span className="mb-1 text-center text-[10px] font-semibold text-ink/55 sm:text-xs">
+                                <span
+                                    className={`mb-1 text-center text-xs font-bold ${i === idx ? 'text-clay-ink' : 'text-ink/80'}`}
+                                >
                                     {singkat(b.pendapatan)}
                                 </span>
                                 <span
-                                    className={`w-full rounded-t-xl transition-all duration-500 ${i === idx ? 'bg-clay' : 'bg-teal/25 group-hover:bg-teal/45'}`}
+                                    className={`w-full rounded-t-xl transition-all duration-500 ${i === idx ? 'bg-clay dark:bg-rose-deep' : 'bg-teal/60 group-hover:bg-teal/80'}`}
                                     style={{
                                         height: `${Math.max(3, (b.pendapatan / maks) * 82)}%`,
                                     }}
                                 />
                             </span>
                             <span
-                                className={`text-[10px] sm:text-xs ${i === idx ? 'font-semibold text-clay' : 'text-ink/55'}`}
+                                className={`text-xs ${i === idx ? 'font-bold text-clay-ink' : 'font-medium text-ink/75'}`}
                             >
                                 {b.label}
                             </span>
                         </button>
                     ))}
                 </div>
-                <p className="mt-4 text-center text-xs text-ink/50">
+                <p className="mt-4 text-center text-sm text-ink/70">
                     Ketuk batang untuk melihat rincian per {satuan}.
                 </p>
             </section>
 
-            <p className="mt-8 font-medium text-teal-deep">{cur.penuh}</p>
+            <p className="mt-8 text-lg font-semibold text-teal-ink">{cur.penuh}</p>
             <div className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
                 <div className="rounded-3xl bg-clay p-4 text-white">
                     <span className="grid size-9 place-items-center rounded-xl bg-white/15">
@@ -276,9 +278,9 @@ export default function Laporan() {
                     <p className="mt-3 text-lg font-semibold">
                         {rupiah(cur.pendapatan)}
                     </p>
-                    <p className="text-xs text-white/85">Pendapatan</p>
+                    <p className="text-sm font-medium text-white">Pendapatan</p>
                     {delta !== null && (
-                        <p className="mt-2 inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[11px] font-semibold">
+                        <p className="mt-2 inline-flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-xs font-semibold">
                             {delta >= 0 ? (
                                 <TrendingUp size={12} />
                             ) : (
@@ -297,7 +299,7 @@ export default function Laporan() {
                         cur.batal
                             ? `${cur.batal} dibatalkan`
                             : 'Tidak ada pembatalan',
-                        'bg-teal/10 text-teal-deep',
+                        'bg-teal/10 text-teal-ink',
                     ],
                     [
                         Wallet,
@@ -311,7 +313,7 @@ export default function Laporan() {
                         'Barang terlaris',
                         terlaris,
                         'Berdasarkan pendapatan',
-                        'bg-sand text-teal-deep',
+                        'bg-sand text-teal-ink',
                     ],
                 ].map(([Icon, l, v, sub, tone]) => (
                     <div key={l} className="glass rounded-3xl p-4">
@@ -320,32 +322,32 @@ export default function Laporan() {
                         >
                             <Icon size={17} />
                         </span>
-                        <p className="mt-3 line-clamp-1 text-lg font-semibold text-teal-deep">
+                        <p className="mt-3 line-clamp-1 text-lg font-semibold text-teal-ink">
                             {v}
                         </p>
-                        <p className="text-xs text-ink/55">{l}</p>
-                        <p className="mt-2 text-[11px] text-ink/45">{sub}</p>
+                        <p className="text-sm font-medium text-ink/80">{l}</p>
+                        <p className="mt-2 text-xs text-ink/70">{sub}</p>
                     </div>
                 ))}
             </div>
 
             <section className="glass mt-6 overflow-hidden rounded-3xl">
                 <div className="flex items-center justify-between px-5 py-4">
-                    <p className="font-medium text-teal-deep">
+                    <p className="font-semibold text-teal-ink">
                         Rincian transaksi
                     </p>
-                    <span className="text-xs text-ink/55">
+                    <span className="text-sm text-ink/75">
                         {cur.rows.length} transaksi
                     </span>
                 </div>
                 {cur.rows.length === 0 ? (
-                    <p className="px-5 pb-8 text-center text-sm text-ink/55">
+                    <p className="px-5 pb-8 text-center text-sm text-ink/75">
                         Belum ada transaksi di {satuan} ini.
                     </p>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[640px] text-left text-sm">
-                            <thead className="bg-sand/60 text-xs text-ink/60">
+                            <thead className="bg-sand text-[13px] text-ink/85">
                                 <tr>
                                     {[
                                         'Tanggal',
@@ -366,16 +368,16 @@ export default function Laporan() {
                                     ))}
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-ink/5">
+                            <tbody className="divide-y divide-ink/10">
                                 {cur.rows.map((t) => (
                                     <tr
                                         key={t.id}
-                                        className="transition hover:bg-white/70"
+                                        className="transition hover:bg-surface/70"
                                     >
-                                        <td className="px-5 py-3 whitespace-nowrap text-ink/70">
+                                        <td className="px-5 py-3 whitespace-nowrap text-ink/85">
                                             {tglPanjang(t.tanggal)}
                                         </td>
-                                        <td className="px-5 py-3 text-ink/55">
+                                        <td className="px-5 py-3 text-ink/75">
                                             {t.id}
                                         </td>
                                         <td className="px-5 py-3 font-medium">
@@ -388,7 +390,7 @@ export default function Laporan() {
                                             {t.hari} hari
                                         </td>
                                         <td
-                                            className={`px-5 py-3 text-right font-semibold whitespace-nowrap ${t.status === 'Dibatalkan' ? 'text-ink/35 line-through' : 'text-teal-deep'}`}
+                                            className={`px-5 py-3 text-right font-semibold whitespace-nowrap ${t.status === 'Dibatalkan' ? 'text-ink/55 line-through' : 'text-teal-ink'}`}
                                         >
                                             {rupiah(t.total)}
                                         </td>
@@ -402,11 +404,11 @@ export default function Laporan() {
                                 <tr className="bg-clay-soft/70">
                                     <td
                                         colSpan={5}
-                                        className="px-5 py-3 font-semibold text-clay"
+                                        className="px-5 py-3 font-semibold text-clay-ink"
                                     >
                                         Total pendapatan (tidak termasuk batal)
                                     </td>
-                                    <td className="px-5 py-3 text-right font-bold whitespace-nowrap text-clay">
+                                    <td className="px-5 py-3 text-right font-bold whitespace-nowrap text-clay-ink">
                                         {rupiah(cur.pendapatan)}
                                     </td>
                                     <td />

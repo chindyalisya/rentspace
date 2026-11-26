@@ -51,7 +51,7 @@ export default function Verifikasi({ status = 'none', reason = null }) {
         >
             <Head title="Verifikasi identitas" />
             {status === 'rejected' && reason && (
-                <p className="mb-4 rounded-xl bg-red-50 p-3 text-xs text-red-700">
+                <p className="mb-4 rounded-xl bg-red-50 p-3 text-xs text-red-700 dark:bg-red-400/15 dark:text-red-300">
                     Verifikasi ditolak: {reason}. Upload ulang ya.
                 </p>
             )}
@@ -94,7 +94,7 @@ export default function Verifikasi({ status = 'none', reason = null }) {
                 />
             )}
             {(errors.jenis || errors.ktm || errors.selfie) && (
-                <p className="mt-2 text-xs text-red-600">
+                <p className="mt-2 text-xs text-red-600 dark:text-red-400">
                     {errors.jenis || errors.ktm || errors.selfie}
                 </p>
             )}

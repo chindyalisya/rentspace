@@ -20,7 +20,7 @@ export default function MitraBarang() {
         <AppShell>
             <Head title="Barang saya" />
             <div className="flex flex-wrap items-center justify-between gap-3">
-                <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">
+                <h1 className="text-3xl font-semibold tracking-tight text-teal-ink">
                     Barang saya
                 </h1>
                 <Link
@@ -37,7 +37,7 @@ export default function MitraBarang() {
                     <button
                         key={l}
                         onClick={() => setTab(n)}
-                        className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium ${tab === n ? 'bg-teal-deep text-cream shadow-sm' : 'glass text-ink/70'}`}
+                        className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium ${tab === n ? 'bg-teal-deep text-paper shadow-sm' : 'glass text-ink/70'}`}
                     >
                         {l}
                     </button>
@@ -63,7 +63,7 @@ export default function MitraBarang() {
                                     </span>
                                 </p>
                                 <span
-                                    className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[11px] font-medium ${it.status === 'Aktif' ? 'bg-teal/10 text-teal-deep' : 'bg-ink/8 text-ink/50'}`}
+                                    className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[11px] font-medium ${it.status === 'Aktif' ? 'bg-teal/10 text-teal-ink' : 'bg-ink/8 text-ink/50'}`}
                                 >
                                     {it.disewaHariIni
                                         ? 'Sedang disewa'
@@ -71,7 +71,7 @@ export default function MitraBarang() {
                                 </span>
                             </div>
                         </div>
-                        <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-white/70 py-2 text-sm font-medium text-teal-deep transition hover:bg-white">
+                        <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-surface/70 py-2 text-sm font-medium text-teal-ink transition hover:bg-surface">
                             <Pencil size={14} />
                             Edit barang
                         </button>

@@ -62,7 +62,7 @@
 }
 
 :root {
-    /* Tema RentSpace (cream / rose / teal). Hanya mode terang. */
+    /* Tema RentSpace (cream / rose / teal), mode terang. Mode gelap ada di blok .dark di bawah. */
     --background: #faf6ee;
     --foreground: #2f3a39;
     --card: #fffdf9;
@@ -96,6 +96,42 @@
     --sidebar-accent-foreground: #2f4f5a;
     --sidebar-border: #e6dfd2;
     --sidebar-ring: #4a7581;
+}
+
+.dark {
+    /* Mode gelap RentSpace: selaras dengan blok .dark di rentspace.css */
+    --background: #141b1c;
+    --foreground: #ebe6db;
+    --card: #1c2628;
+    --card-foreground: #ebe6db;
+    --popover: #1c2628;
+    --popover-foreground: #ebe6db;
+    --primary: #d3e6ec;
+    --primary-foreground: #141b1c;
+    --secondary: #263234;
+    --secondary-foreground: #d3e6ec;
+    --muted: #263234;
+    --muted-foreground: #a9b3b1;
+    --accent: #3a2a28;
+    --accent-foreground: #ebe6db;
+    --destructive: #e0675c;
+    --destructive-foreground: #ffffff;
+    --border: #324144;
+    --input: #3b4b4e;
+    --ring: #5b94a2;
+    --chart-1: #5b94a2;
+    --chart-2: #d99a8f;
+    --chart-3: #d3e6ec;
+    --chart-4: #c98477;
+    --chart-5: #e0b458;
+    --sidebar: #1c2628;
+    --sidebar-foreground: #ebe6db;
+    --sidebar-primary: #d3e6ec;
+    --sidebar-primary-foreground: #141b1c;
+    --sidebar-accent: #263234;
+    --sidebar-accent-foreground: #ebe6db;
+    --sidebar-border: #324144;
+    --sidebar-ring: #5b94a2;
 }
 
 @layer base {

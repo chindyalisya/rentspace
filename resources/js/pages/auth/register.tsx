@@ -115,7 +115,7 @@ export default function Register() {
                                     type="button"
                                     onClick={() => toggle(v)}
                                     aria-pressed={on}
-                                    className={`relative rounded-2xl border p-3.5 text-left transition ${on ? 'border-teal bg-teal/10 ring-4 ring-teal/10' : 'border-white/80 bg-white/60 hover:bg-white/80'}`}
+                                    className={`relative rounded-2xl border p-3.5 text-left transition ${on ? 'border-teal bg-teal/10 ring-4 ring-teal/10' : 'border-ink/10 bg-surface/60 hover:bg-surface/80'}`}
                                 >
                                     <Icon
                                         size={20}
@@ -140,7 +140,7 @@ export default function Register() {
                         })}
                     </div>
                     {errors.roles && (
-                        <p className="mt-1.5 text-xs text-red-600">
+                        <p className="mt-1.5 text-xs text-red-600 dark:text-red-400">
                             {errors.roles}
                         </p>
                     )}
@@ -222,7 +222,7 @@ export default function Register() {
                             </span>
                         </label>
                         {errors.terms && (
-                            <p className="text-xs text-red-600">
+                            <p className="text-xs text-red-600 dark:text-red-400">
                                 {errors.terms}
                             </p>
                         )}
@@ -243,7 +243,7 @@ export default function Register() {
                             onFile={(f) => setData('ktm', f)}
                         />
                         {(errors.jenis || errors.ktm) && (
-                            <p className="text-xs text-red-600">
+                            <p className="text-xs text-red-600 dark:text-red-400">
                                 {errors.jenis || errors.ktm}
                             </p>
                         )}
@@ -268,7 +268,7 @@ export default function Register() {
                             onFile={(f) => setData('selfie', f)}
                         />
                         {errors.selfie && (
-                            <p className="text-xs text-red-600">
+                            <p className="text-xs text-red-600 dark:text-red-400">
                                 {errors.selfie}
                             </p>
                         )}

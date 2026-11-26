@@ -93,7 +93,7 @@ export default function Onboarding() {
                     <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/35 to-transparent" />
                     <span
                         key={i}
-                        className="rs-rise absolute bottom-5 left-5 rounded-full bg-white/92 px-4 py-2 text-xs font-semibold text-teal-deep shadow-md"
+                        className="rs-rise absolute bottom-5 left-5 rounded-full bg-surface/92 px-4 py-2 text-xs font-semibold text-teal-ink shadow-md"
                     >
                         {s.chip}
                     </span>
@@ -101,7 +101,7 @@ export default function Onboarding() {
                 <div className="flex flex-col p-7 sm:p-10">
                     <Logo className="mb-8 hidden lg:inline-flex" />
                     <div key={i} className="rs-rise">
-                        <h1 className="text-3xl leading-tight text-teal-deep sm:text-4xl">
+                        <h1 className="text-3xl leading-tight text-teal-ink sm:text-4xl">
                             {s.title}
                         </h1>
                         <p className="mt-3 max-w-sm text-sm leading-relaxed text-ink/65">

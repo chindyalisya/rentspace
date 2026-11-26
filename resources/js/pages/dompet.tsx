@@ -34,7 +34,7 @@ export default function Dompet() {
                 <Link href="/profil" className="text-sm text-teal">
                     Kembali ke profil
                 </Link>
-                <h1 className="mt-3 text-2xl text-teal-deep sm:text-3xl">
+                <h1 className="mt-3 text-2xl text-teal-ink sm:text-3xl">
                     Dompet dan deposit
                 </h1>
 
@@ -69,7 +69,7 @@ export default function Dompet() {
                     </div>
                 </div>
 
-                <h2 className="mt-8 text-lg text-teal-deep">Riwayat</h2>
+                <h2 className="mt-8 text-lg text-teal-ink">Riwayat</h2>
                 <div className="glass mt-3 divide-y divide-ink/5 overflow-hidden rounded-3xl">
                     {riwayat.map((r) => (
                         <div
@@ -77,7 +77,7 @@ export default function Dompet() {
                             className="flex items-center gap-3 px-5 py-4"
                         >
                             <span
-                                className={`grid size-9 place-items-center rounded-full ${r.nilai > 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200/80 text-neutral-700'}`}
+                                className={`grid size-9 place-items-center rounded-full ${r.nilai > 0 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-400/15 dark:text-emerald-300' : 'bg-neutral-200/80 text-neutral-700 dark:bg-white/10 dark:text-neutral-300'}`}
                             >
                                 {r.nilai > 0 ? (
                                     <ArrowDownLeft size={16} />
@@ -90,7 +90,7 @@ export default function Dompet() {
                                 <p className="text-xs text-ink/50">{r.tgl}</p>
                             </div>
                             <p
-                                className={`text-sm font-semibold ${r.nilai > 0 ? 'text-emerald-700' : 'text-ink'}`}
+                                className={`text-sm font-semibold ${r.nilai > 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-ink'}`}
                             >
                                 {r.nilai > 0 ? '+' : '-'}
                                 {rupiah(Math.abs(r.nilai))}

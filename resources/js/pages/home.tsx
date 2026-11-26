@@ -25,14 +25,14 @@ const categories = [
         'Fashion',
         'Kemeja, rok, sepatu formal',
         bySlug('kemeja-putih-pria'),
-        'bg-rose-soft text-teal-deep',
+        'bg-rose-soft text-teal-ink',
     ],
     [
         'akademik',
         'Akademik',
         'Almamater, kalkulator',
         bySlug('kalkulator-scientific'),
-        'bg-teal-deep text-cream',
+        'bg-teal-deep text-paper',
     ],
 ];
 const jaminan = [
@@ -65,12 +65,12 @@ const steps = [
 const Head2 = ({ title, sub, href = '/katalog' }) => (
     <div className="mb-6 flex items-end justify-between gap-4">
         <div>
-            <h2 className="text-2xl text-teal-deep sm:text-3xl">{title}</h2>
+            <h2 className="text-2xl text-teal-ink sm:text-3xl">{title}</h2>
             {sub && <p className="mt-1 text-sm text-ink/55">{sub}</p>}
         </div>
         <Link
             href={href}
-            className="shrink-0 text-sm font-semibold text-teal underline-offset-4 transition hover:text-teal-deep hover:underline"
+            className="shrink-0 text-sm font-semibold text-teal underline-offset-4 transition hover:text-teal-ink hover:underline"
         >
             Lihat semua
         </Link>
@@ -112,11 +112,11 @@ export default function Home({
 
             <section className="grid items-center gap-10 py-2 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:py-6">
                 <div>
-                    <p className="rs-rise mb-4 text-xs font-semibold tracking-[.18em] text-clay uppercase">
+                    <p className="rs-rise mb-4 text-xs font-semibold tracking-[.18em] text-clay-ink uppercase">
                         Sewa antar mahasiswa
                     </p>
                     <h1
-                        className="rs-rise text-4xl leading-[1.08] text-teal-deep sm:text-5xl lg:text-[3.4rem]"
+                        className="rs-rise text-4xl leading-[1.08] text-teal-ink sm:text-5xl lg:text-[3.4rem]"
                         style={{ '--d': '60ms' }}
                     >
                         Butuh barang untuk kuliah? Sewa saja, bayar per hari.
@@ -130,14 +130,14 @@ export default function Home({
                     </p>
                     <Link
                         href="/cari"
-                        className="rs-rise mt-7 flex max-w-xl items-center gap-3 rounded-2xl border border-ink/10 bg-white p-2 pl-5 text-sm text-ink/50 shadow-sm transition duration-300 hover:border-teal/40 hover:shadow-md"
+                        className="rs-rise mt-7 flex max-w-xl items-center gap-3 rounded-2xl border border-ink/10 bg-surface p-2 pl-5 text-sm text-ink/50 shadow-sm transition duration-300 hover:border-teal/40 hover:shadow-md"
                         style={{ '--d': '220ms' }}
                     >
                         <Search size={18} />
                         <span className="flex-1">
                             Cari kamera, tenda, almamater
                         </span>
-                        <span className="rounded-xl bg-teal-deep px-5 py-2.5 font-semibold text-cream">
+                        <span className="rounded-xl bg-teal-deep px-5 py-2.5 font-semibold text-paper">
                             Cari
                         </span>
                     </Link>
@@ -151,7 +151,7 @@ export default function Home({
                             ['100%', 'deposit dijamin'],
                         ].map(([a, b]) => (
                             <div key={b}>
-                                <dt className="font-display text-2xl font-semibold text-teal-deep">
+                                <dt className="font-display text-2xl font-semibold text-teal-ink">
                                     {a}
                                 </dt>
                                 <dd className="text-xs text-ink/55">{b}</dd>
@@ -198,7 +198,7 @@ export default function Home({
                                 3 hari, deposit {rupiah(cam.deposit)}
                             </p>
                         </div>
-                        <p className="text-sm font-bold text-teal-deep">
+                        <p className="text-sm font-bold text-teal-ink">
                             {rupiah(cam.price * 3)}
                         </p>
                     </div>
@@ -215,7 +215,7 @@ export default function Home({
                             <Icon size={18} />
                         </span>
                         <div>
-                            <p className="text-sm font-semibold text-teal-deep">
+                            <p className="text-sm font-semibold text-teal-ink">
                                 {t}
                             </p>
                             <p className="mt-0.5 text-xs leading-relaxed text-ink/65">
@@ -292,7 +292,7 @@ export default function Home({
                 <Grid items={featured} />
             </section>
 
-            <section className="mt-20 grid gap-8 rounded-3xl bg-clay p-6 text-cream sm:p-10 lg:grid-cols-3">
+            <section className="mt-20 grid gap-8 rounded-3xl bg-clay p-6 text-paper sm:p-10 lg:grid-cols-3">
                 <Reveal className="lg:col-span-3">
                     <h2 className="text-2xl text-white sm:text-3xl">
                         Cara kerjanya
@@ -304,7 +304,7 @@ export default function Home({
                             {n}
                         </p>
                         <p className="mt-2 font-semibold text-white">{t}</p>
-                        <p className="mt-1 text-sm leading-relaxed text-cream/90">
+                        <p className="mt-1 text-sm leading-relaxed text-paper/90">
                             {d}
                         </p>
                     </Reveal>
@@ -323,20 +323,20 @@ export default function Home({
 
             <Reveal
                 as="section"
-                className="mt-20 overflow-hidden rounded-3xl bg-teal-deep text-cream"
+                className="mt-20 overflow-hidden rounded-3xl bg-teal-deep text-paper"
             >
                 <div className="grid items-center md:grid-cols-[1.3fr_1fr]">
                     <div className="p-7 sm:p-10">
                         <h2 className="text-2xl sm:text-3xl">
                             Punya barang yang jarang dipakai?
                         </h2>
-                        <p className="mt-2 max-w-md text-sm leading-relaxed text-cream/70">
+                        <p className="mt-2 max-w-md text-sm leading-relaxed text-paper/70">
                             Sewakan ke sesama mahasiswa dan dapat penghasilan
                             tambahan. Kamu yang atur harga dan tanggalnya.
                         </p>
                         <Link
                             href="/mitra/dashboard"
-                            className="mt-6 inline-flex rounded-xl bg-cream px-6 py-3 text-sm font-semibold text-teal-deep transition duration-300 hover:bg-white hover:shadow-lg active:scale-[.97]"
+                            className="mt-6 inline-flex rounded-xl bg-paper px-6 py-3 text-sm font-semibold text-teal-deep transition duration-300 hover:bg-white hover:shadow-lg active:scale-[.97]"
                         >
                             Jadi mitra
                         </Link>

@@ -50,7 +50,7 @@ export default function Alamat() {
                 <Link href="/profil" className="text-sm text-teal">
                     Kembali ke profil
                 </Link>
-                <h1 className="mt-3 text-2xl text-teal-deep sm:text-3xl">
+                <h1 className="mt-3 text-2xl text-teal-ink sm:text-3xl">
                     Alamat tersimpan
                 </h1>
                 <p className="mt-1 text-sm text-ink/60">
@@ -151,7 +151,7 @@ export default function Alamat() {
                 ) : (
                     <button
                         onClick={() => setBuka(true)}
-                        className="glass mt-4 flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium text-teal-deep transition hover:bg-white/80"
+                        className="glass mt-4 flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium text-teal-ink transition hover:bg-surface/80"
                     >
                         <Plus size={17} />
                         Tambah alamat

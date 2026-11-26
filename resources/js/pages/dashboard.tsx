@@ -13,10 +13,10 @@ import { AppShell } from '@/layouts/shell';
 export default function Dashboard() {
     const user = usePage().props.auth?.user;
     const tones = [
-        'bg-teal/10 text-teal-deep',
-        'bg-clay-soft text-clay',
+        'bg-teal/10 text-teal-ink',
+        'bg-clay-soft text-clay-ink',
         'bg-rose-soft text-rose-deep',
-        'bg-sand text-teal-deep',
+        'bg-sand text-teal-ink',
     ];
     const links = [
         [
@@ -62,13 +62,13 @@ export default function Dashboard() {
         <AppShell>
             <Head title="Dashboard" />
             <div className="rounded-3xl bg-rose-soft p-6 sm:p-8">
-                <p className="text-sm text-teal-deep/70">
+                <p className="text-sm text-teal-ink/70">
                     Selamat datang kembali
                 </p>
-                <h1 className="mt-1 text-3xl font-semibold tracking-tight text-teal-deep">
+                <h1 className="mt-1 text-3xl font-semibold tracking-tight text-teal-ink">
                     Halo, {user?.name ?? 'Pengguna'}
                 </h1>
-                <p className="mt-2 max-w-md text-sm text-teal-deep/70">
+                <p className="mt-2 max-w-md text-sm text-teal-ink/70">
                     Mau sewa barang untuk kuliahmu, atau sewakan barang yang
                     jarang terpakai?
                 </p>
@@ -86,7 +86,7 @@ export default function Dashboard() {
                             <Icon size={20} />
                         </span>
                         <span className="min-w-0 flex-1">
-                            <span className="block font-semibold text-teal-deep">
+                            <span className="block font-semibold text-teal-ink">
                                 {title}
                             </span>
                             <span className="block text-xs text-ink/55">

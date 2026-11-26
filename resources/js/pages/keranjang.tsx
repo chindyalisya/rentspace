@@ -31,7 +31,7 @@ export default function Keranjang() {
     return (
         <AppShell>
             <Head title="Keranjang" />
-            <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">
+            <h1 className="text-3xl font-semibold tracking-tight text-teal-ink">
                 Keranjang
             </h1>
             {!rows.length ? (
@@ -69,11 +69,11 @@ export default function Keranjang() {
                                         {rupiah(it.price * days * c.qty)}
                                     </p>
                                 </div>
-                                <div className="flex items-center gap-2 rounded-full bg-white/70 p-1">
+                                <div className="flex items-center gap-2 rounded-full bg-surface/70 p-1">
                                     <button
                                         aria-label="Kurangi"
                                         onClick={() => qty(c.slug, -1)}
-                                        className="grid size-7 place-items-center rounded-full hover:bg-white"
+                                        className="grid size-7 place-items-center rounded-full hover:bg-surface"
                                     >
                                         <Minus size={14} />
                                     </button>
@@ -83,7 +83,7 @@ export default function Keranjang() {
                                     <button
                                         aria-label="Tambah"
                                         onClick={() => qty(c.slug, 1)}
-                                        className="grid size-7 place-items-center rounded-full hover:bg-white"
+                                        className="grid size-7 place-items-center rounded-full hover:bg-surface"
                                     >
                                         <Plus size={14} />
                                     </button>
@@ -105,7 +105,7 @@ export default function Keranjang() {
                         ))}
                     </div>
                     <aside className="glass h-fit rounded-3xl p-6 lg:sticky lg:top-24">
-                        <p className="font-medium text-teal-deep">Ringkasan</p>
+                        <p className="font-medium text-teal-ink">Ringkasan</p>
                         <dl className="mt-4 space-y-2.5 text-sm">
                             <div className="flex justify-between">
                                 <dt className="text-ink/60">Total sewa</dt>

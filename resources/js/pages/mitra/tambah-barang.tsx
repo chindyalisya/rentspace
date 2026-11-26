@@ -37,7 +37,7 @@ export default function TambahBarang() {
                 <Head title="Barang ditambahkan" />
                 <div className="glass mx-auto mt-8 grid max-w-md place-items-center rounded-3xl p-10 text-center">
                     <CheckCircle2 size={48} className="text-teal" />
-                    <h1 className="mt-4 text-2xl font-semibold text-teal-deep">
+                    <h1 className="mt-4 text-2xl font-semibold text-teal-ink">
                         Barang berhasil ditambahkan
                     </h1>
                     <p className="mt-1 text-sm text-ink/60">
@@ -46,7 +46,7 @@ export default function TambahBarang() {
                     </p>
                     <button
                         onClick={() => router.visit('/mitra/barang')}
-                        className="mt-7 rounded-2xl bg-teal-deep px-6 py-3 text-sm font-medium text-white"
+                        className="mt-7 rounded-2xl bg-teal-deep px-6 py-3 text-sm font-medium text-paper"
                     >
                         Lihat barang saya
                     </button>
@@ -58,7 +58,7 @@ export default function TambahBarang() {
     return (
         <AppShell>
             <Head title="Tambah barang" />
-            <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">
+            <h1 className="text-3xl font-semibold tracking-tight text-teal-ink">
                 Tambah barang
             </h1>
             <MitraTabs active="/mitra/tambah-barang" />
@@ -67,12 +67,12 @@ export default function TambahBarang() {
                 {stepLabel.map((l, i) => (
                     <div key={l} className="flex flex-1 items-center gap-2">
                         <span
-                            className={`grid size-7 shrink-0 place-items-center rounded-full text-xs font-medium ${step > i ? 'bg-teal-deep text-cream' : step === i + 1 ? 'bg-teal/15 text-teal-deep ring-2 ring-teal/30' : 'bg-ink/8 text-ink/40'}`}
+                            className={`grid size-7 shrink-0 place-items-center rounded-full text-xs font-medium ${step > i ? 'bg-teal-deep text-paper' : step === i + 1 ? 'bg-teal/15 text-teal-ink ring-2 ring-teal/30' : 'bg-ink/8 text-ink/40'}`}
                         >
                             {i + 1}
                         </span>
                         <span
-                            className={`hidden text-xs sm:block ${step === i + 1 ? 'font-medium text-teal-deep' : 'text-ink/45'}`}
+                            className={`hidden text-xs sm:block ${step === i + 1 ? 'font-medium text-teal-ink' : 'text-ink/45'}`}
                         >
                             {l}
                         </span>
@@ -101,7 +101,7 @@ export default function TambahBarang() {
                             <select
                                 value={f.kategori}
                                 onChange={set('kategori')}
-                                className="w-full rounded-2xl border border-white/80 bg-white/70 px-4 py-3 text-sm outline-none focus:border-teal focus:ring-4 focus:ring-teal/15"
+                                className="w-full rounded-2xl border border-ink/10 bg-surface/70 px-4 py-3 text-sm outline-none focus:border-teal focus:ring-4 focus:ring-teal/15"
                             >
                                 {cats
                                     .filter(([s]) => s !== 'semua')
@@ -121,7 +121,7 @@ export default function TambahBarang() {
                                 value={f.deskripsi}
                                 onChange={set('deskripsi')}
                                 placeholder="Kondisi barang, kelengkapan, dan hal yang perlu diketahui penyewa"
-                                className="w-full rounded-2xl border border-white/80 bg-white/70 p-4 text-sm outline-none focus:border-teal focus:ring-4 focus:ring-teal/15"
+                                className="w-full rounded-2xl border border-ink/10 bg-surface/70 p-4 text-sm outline-none focus:border-teal focus:ring-4 focus:ring-teal/15"
                             />
                         </label>
                     </div>
@@ -132,7 +132,7 @@ export default function TambahBarang() {
                             Unggah minimal 1 foto. Foto pertama jadi sampul di
                             katalog.
                         </p>
-                        <label className="mt-4 flex h-44 cursor-pointer flex-col items-center justify-center gap-2 rounded-3xl border-2 border-dashed border-teal/30 bg-white/50 text-ink/50 transition hover:bg-white/70">
+                        <label className="mt-4 flex h-44 cursor-pointer flex-col items-center justify-center gap-2 rounded-3xl border-2 border-dashed border-teal/30 bg-surface/50 text-ink/50 transition hover:bg-surface/70">
                             <ImagePlus size={28} className="text-teal" />
                             <span className="text-sm">
                                 Tap untuk pilih foto
@@ -148,7 +148,7 @@ export default function TambahBarang() {
                             />
                         </label>
                         {f.foto.length > 0 && (
-                            <p className="mt-2 text-xs text-teal-deep">
+                            <p className="mt-2 text-xs text-teal-ink">
                                 {f.foto.length} foto dipilih
                             </p>
                         )}
@@ -170,7 +170,7 @@ export default function TambahBarang() {
                             <select
                                 value={f.minHari}
                                 onChange={set('minHari')}
-                                className="w-full rounded-2xl border border-white/80 bg-white/70 px-4 py-3 text-sm outline-none focus:border-teal focus:ring-4 focus:ring-teal/15"
+                                className="w-full rounded-2xl border border-ink/10 bg-surface/70 px-4 py-3 text-sm outline-none focus:border-teal focus:ring-4 focus:ring-teal/15"
                             >
                                 {[1, 2, 3].map((n) => (
                                     <option key={n} value={n}>
@@ -199,7 +199,7 @@ export default function TambahBarang() {
                                 value={f.syarat}
                                 onChange={set('syarat')}
                                 placeholder="Contoh: wajib kembalikan dengan baterai penuh"
-                                className="w-full rounded-2xl border border-white/80 bg-white/70 p-4 text-sm outline-none focus:border-teal focus:ring-4 focus:ring-teal/15"
+                                className="w-full rounded-2xl border border-ink/10 bg-surface/70 p-4 text-sm outline-none focus:border-teal focus:ring-4 focus:ring-teal/15"
                             />
                         </label>
                     </div>

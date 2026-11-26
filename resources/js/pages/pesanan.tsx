@@ -4,7 +4,7 @@ import { Head, Link } from '@inertiajs/react';
 import { Check, ChevronRight, Star } from 'lucide-react';
 import { Button, StatusBadge, rupiah, Thumb } from '@/components/rs';
 import { AppShell } from '@/layouts/shell';
-import { bySlug, orders } from '@/lib/dummy';
+import { bySlug } from '@/lib/dummy';
 
 const tabs = [
     ['Semua', () => true],
@@ -95,7 +95,7 @@ function Detail({ o }) {
                                         className="flex items-center gap-3 text-sm"
                                     >
                                         <span
-                                            className={`grid size-6 place-items-center rounded-full ${done ? 'bg-teal-deep text-cream' : 'border border-ink/15 bg-white/70'}`}
+                                            className={`grid size-6 place-items-center rounded-full ${done ? 'bg-teal-deep text-paper' : 'border border-ink/15 bg-surface/70'}`}
                                         >
                                             {done && <Check size={13} />}
                                         </span>
@@ -142,12 +142,12 @@ function Detail({ o }) {
                                             type="file"
                                             accept="image/*"
                                             multiple
-                                            className="w-full rounded-2xl border border-dashed border-teal/40 bg-white/60 p-3 text-xs"
+                                            className="w-full rounded-2xl border border-dashed border-teal/40 bg-surface/60 p-3 text-xs"
                                         />
                                         <textarea
                                             rows={2}
                                             placeholder="Catatan (opsional)"
-                                            className="w-full rounded-2xl border border-white/80 bg-white/70 p-3 text-sm outline-none focus:border-teal"
+                                            className="w-full rounded-2xl border border-ink/10 bg-surface/70 p-3 text-sm outline-none focus:border-teal"
                                         />
                                         <Button onClick={() => setSent(true)}>
                                             Kirim
@@ -191,7 +191,7 @@ function Detail({ o }) {
     );
 }
 
-export default function Pesanan({ id = null }) {
+export default function Pesanan({ id = null, orders = [] }) {
     const [tab, setTab] = useState(0);
     const detail = id && orders.find((o) => o.id === id);
     return (
@@ -201,7 +201,7 @@ export default function Pesanan({ id = null }) {
                 <Detail o={detail} />
             ) : (
                 <>
-                    <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">
+                    <h1 className="text-3xl font-semibold tracking-tight text-teal-ink">
                         Pesanan saya
                     </h1>
                     <div className="mt-5 flex gap-2 overflow-x-auto">
@@ -209,12 +209,20 @@ export default function Pesanan({ id = null }) {
                             <button
                                 key={l}
                                 onClick={() => setTab(n)}
-                                className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium ${tab === n ? 'bg-teal-deep text-cream shadow-md' : 'glass text-ink/70'}`}
+                                className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium ${tab === n ? 'bg-teal-deep text-paper shadow-md' : 'glass text-ink/70'}`}
                             >
                                 {l}
                             </button>
                         ))}
                     </div>
+                    {!orders.length && (
+                        <p className="mt-6 text-sm text-ink/55">
+                            Belum ada pesanan.{' '}
+                            <Link href="/katalog" className="text-teal">
+                                Mulai sewa barang
+                            </Link>
+                        </p>
+                    )}
                     <div className="mt-5 grid gap-3 md:grid-cols-2">
                         {orders.filter(tabs[tab][1]).map((o) => {
                             const it = bySlug(o.slug);

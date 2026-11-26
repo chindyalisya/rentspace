@@ -12,7 +12,6 @@ import { AppShell, MitraTabs } from '@/layouts/shell';
 import {
     bySlug,
     mitraItems,
-    mitraRequests,
     mitraStats as s,
     orders,
 } from '@/lib/dummy';
@@ -29,7 +28,7 @@ const stats = [
         TrendingUp,
         'Sewa aktif',
         `${s.sewaAktif} barang`,
-        'bg-teal/10 text-teal-deep',
+        'bg-teal/10 text-teal-ink',
     ],
     [
         PackageCheck,
@@ -37,17 +36,17 @@ const stats = [
         `${s.barangAktif} barang`,
         'bg-rose-soft text-rose-deep',
     ],
-    [Star, 'Rating mitra', s.rating, 'bg-sand text-teal-deep'],
+    [Star, 'Rating mitra', s.rating, 'bg-sand text-teal-ink'],
 ];
 const aktif = orders.filter((o) =>
     ['Sedang Disewa', 'Jatuh Tempo'].includes(o.status),
 );
 
-export default function MitraDashboard() {
+export default function MitraDashboard({ requests = [] }) {
     return (
         <AppShell>
             <Head title="Dashboard mitra" />
-            <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">
+            <h1 className="text-3xl font-semibold tracking-tight text-teal-ink">
                 Dashboard mitra
             </h1>
             <p className="mt-1 text-sm text-ink/60">
@@ -70,7 +69,7 @@ export default function MitraDashboard() {
                                 <Icon size={17} />
                             </span>
                             <p
-                                className={`mt-3 text-lg font-semibold ${href ? '' : 'text-teal-deep'}`}
+                                className={`mt-3 text-lg font-semibold ${href ? '' : 'text-teal-ink'}`}
                             >
                                 {v}
                             </p>
@@ -93,22 +92,22 @@ export default function MitraDashboard() {
             <div className="mt-8 grid gap-6 lg:grid-cols-2">
                 <section className="glass rounded-3xl p-5">
                     <div className="mb-3 flex items-center justify-between">
-                        <p className="font-medium text-teal-deep">
+                        <p className="font-medium text-teal-ink">
                             Permintaan sewa masuk
                         </p>
-                        {mitraRequests.length > 0 && (
+                        {requests.length > 0 && (
                             <span className="rounded-full bg-rose/25 px-2.5 py-0.5 text-xs font-medium text-rose-deep">
-                                {mitraRequests.length} baru
+                                {requests.length} baru
                             </span>
                         )}
                     </div>
                     <div className="space-y-2.5">
-                        {mitraRequests.map((r) => {
+                        {requests.map((r) => {
                             const it = bySlug(r.slug);
                             return (
                                 <div
                                     key={r.id}
-                                    className="flex items-center gap-3 rounded-2xl bg-white/60 p-3"
+                                    className="flex items-center gap-3 rounded-2xl bg-surface/60 p-3"
                                 >
                                     <Thumb
                                         item={it}
@@ -127,7 +126,7 @@ export default function MitraDashboard() {
                                 </div>
                             );
                         })}
-                        {!mitraRequests.length && (
+                        {!requests.length && (
                             <p className="text-sm text-ink/55">
                                 Belum ada permintaan baru.
                             </p>
@@ -143,7 +142,7 @@ export default function MitraDashboard() {
                 </section>
 
                 <section className="glass rounded-3xl p-5">
-                    <p className="mb-3 font-medium text-teal-deep">
+                    <p className="mb-3 font-medium text-teal-ink">
                         Sewa yang sedang berjalan
                     </p>
                     <div className="space-y-2.5">
@@ -152,7 +151,7 @@ export default function MitraDashboard() {
                             return (
                                 <div
                                     key={o.id}
-                                    className="flex items-center gap-3 rounded-2xl bg-white/60 p-3"
+                                    className="flex items-center gap-3 rounded-2xl bg-surface/60 p-3"
                                 >
                                     <Thumb
                                         item={it}
@@ -181,12 +180,12 @@ export default function MitraDashboard() {
             </div>
 
             <section className="glass mt-6 rounded-3xl p-5">
-                <p className="mb-3 font-medium text-teal-deep">Barangmu</p>
+                <p className="mb-3 font-medium text-teal-ink">Barangmu</p>
                 <div className="grid gap-2.5 sm:grid-cols-3">
                     {mitraItems.map((it) => (
                         <div
                             key={it.slug}
-                            className="flex items-center gap-3 rounded-2xl bg-white/60 p-3"
+                            className="flex items-center gap-3 rounded-2xl bg-surface/60 p-3"
                         >
                             <Thumb
                                 item={it}
@@ -202,7 +201,7 @@ export default function MitraDashboard() {
                                 </p>
                             </div>
                             <span
-                                className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${it.status === 'Aktif' ? 'bg-teal/10 text-teal-deep' : 'bg-ink/8 text-ink/50'}`}
+                                className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${it.status === 'Aktif' ? 'bg-teal/10 text-teal-ink' : 'bg-ink/8 text-ink/50'}`}
                             >
                                 {it.status}
                             </span>

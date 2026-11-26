@@ -33,7 +33,7 @@ export default function Barang({ slug }) {
         router.visit(to);
     };
     const date =
-        'w-full rounded-xl border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-teal focus:ring-4 focus:ring-teal/15';
+        'w-full rounded-xl border border-ink/15 bg-surface px-3 py-2.5 text-sm outline-none transition focus:border-teal focus:ring-4 focus:ring-teal/15';
 
     return (
         <AppShell>
@@ -60,7 +60,7 @@ export default function Barang({ slug }) {
                         className="rs-rise mt-6 flex items-start justify-between gap-4"
                         style={{ '--d': '80ms' }}
                     >
-                        <h1 className="text-3xl text-teal-deep sm:text-4xl">
+                        <h1 className="text-3xl text-teal-ink sm:text-4xl">
                             {it.name}
                         </h1>
                         <span className="glass flex shrink-0 items-center gap-1 rounded-full px-3 py-1 text-sm">
@@ -91,7 +91,7 @@ export default function Barang({ slug }) {
                             </p>
                         </div>
                     </div>
-                    <h2 className="mt-8 text-lg text-teal-deep">Syarat sewa</h2>
+                    <h2 className="mt-8 text-lg text-teal-ink">Syarat sewa</h2>
                     <ul className="mt-3 space-y-2 text-sm text-ink/70">
                         {rules.map((r) => (
                             <li key={r} className="flex gap-2">
@@ -109,7 +109,7 @@ export default function Barang({ slug }) {
                     className="glass rs-rise h-fit rounded-3xl p-6 lg:sticky lg:top-24"
                     style={{ '--d': '120ms' }}
                 >
-                    <p className="font-display text-3xl font-semibold text-teal-deep">
+                    <p className="font-display text-3xl font-semibold text-teal-ink">
                         {rupiah(it.price)}
                         <span className="font-sans text-sm font-normal text-ink/50">
                             /hari
@@ -150,7 +150,7 @@ export default function Barang({ slug }) {
                         </div>
                         <div className="flex justify-between border-t border-ink/10 pt-3 text-base font-semibold">
                             <dt>Total</dt>
-                            <dd className="text-teal-deep">
+                            <dd className="text-teal-ink">
                                 {rupiah(sewa + it.deposit)}
                             </dd>
                         </div>
@@ -181,7 +181,7 @@ export default function Barang({ slug }) {
             {mirip.length > 0 && (
                 <section className="mt-16">
                     <Reveal>
-                        <h2 className="mb-5 text-2xl text-teal-deep">
+                        <h2 className="mb-5 text-2xl text-teal-ink">
                             Barang serupa
                         </h2>
                     </Reveal>

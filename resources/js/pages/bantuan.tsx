@@ -45,14 +45,14 @@ export default function Bantuan() {
                 <Link href="/profil" className="text-sm text-teal">
                     Kembali ke profil
                 </Link>
-                <h1 className="mt-3 text-2xl text-teal-deep sm:text-3xl">
+                <h1 className="mt-3 text-2xl text-teal-ink sm:text-3xl">
                     Pusat bantuan
                 </h1>
                 <p className="mt-1 text-sm text-ink/60">
                     Pertanyaan yang paling sering ditanyakan.
                 </p>
 
-                <label className="mt-5 flex items-center gap-2.5 rounded-xl border border-ink/15 bg-white px-4 py-3 transition duration-300 focus-within:border-teal focus-within:ring-4 focus-within:ring-teal/15">
+                <label className="mt-5 flex items-center gap-2.5 rounded-xl border border-ink/15 bg-surface px-4 py-3 transition duration-300 focus-within:border-teal focus-within:ring-4 focus-within:ring-teal/15">
                     <Search size={17} className="shrink-0 text-teal/70" />
                     <input
                         value={q}
@@ -76,7 +76,7 @@ export default function Bantuan() {
                                 <button
                                     onClick={() => setBuka(on ? null : t)}
                                     aria-expanded={on}
-                                    className="flex w-full items-center gap-3 px-5 py-4 text-left text-sm font-medium transition hover:bg-white/60"
+                                    className="flex w-full items-center gap-3 px-5 py-4 text-left text-sm font-medium transition hover:bg-surface/60"
                                 >
                                     <span className="flex-1">{t}</span>
                                     <ChevronDown

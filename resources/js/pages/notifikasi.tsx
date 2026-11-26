@@ -18,7 +18,7 @@ function notifVerifikasi(v) {
         return {
             id: 'v',
             Icon: ShieldAlert,
-            tone: 'bg-clay-soft text-clay',
+            tone: 'bg-clay-soft text-clay-ink',
             judul: 'Lengkapi verifikasi identitas',
             isi: 'Kirim KTM atau KTP dan selfie agar bisa menyewa dan menyewakan barang.',
             tautan: ['/verifikasi', 'Verifikasi sekarang'],
@@ -28,7 +28,7 @@ function notifVerifikasi(v) {
         return {
             id: 'v',
             Icon: BadgeCheck,
-            tone: 'bg-emerald-100 text-emerald-800',
+            tone: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-400/15 dark:text-emerald-300',
             judul: 'Identitas kamu sudah terverifikasi',
             isi: 'Sekarang kamu bisa checkout dan membuka mode mitra.',
             baru: true,
@@ -37,7 +37,7 @@ function notifVerifikasi(v) {
         return {
             id: 'v',
             Icon: CircleAlert,
-            tone: 'bg-red-100 text-red-700',
+            tone: 'bg-red-100 text-red-700 dark:bg-red-400/15 dark:text-red-300',
             judul: 'Verifikasi identitas ditolak',
             isi: v.alasan
                 ? `Alasan: ${v.alasan}`
@@ -48,7 +48,7 @@ function notifVerifikasi(v) {
     return {
         id: 'v',
         Icon: Hourglass,
-        tone: 'bg-amber-100 text-amber-800',
+        tone: 'bg-amber-100 text-amber-800 dark:bg-amber-400/15 dark:text-amber-300',
         judul: 'Verifikasi identitas sedang ditinjau',
         isi: 'Biasanya selesai dalam 1x24 jam. Kamu tetap bisa melihat-lihat barang.',
         baru: false,
@@ -59,7 +59,7 @@ const dummy = [
     {
         id: 'n1',
         Icon: ReceiptText,
-        tone: 'bg-teal/10 text-teal-deep',
+        tone: 'bg-teal/10 text-teal-ink',
         judul: 'Sewa RS-1042 sedang berjalan',
         isi: 'Kembalikan Carrier Eiger 45L sebelum 26 Sep agar deposit kembali utuh.',
         tautan: ['/pesanan', 'Lihat pesanan'],
@@ -69,7 +69,7 @@ const dummy = [
     {
         id: 'n2',
         Icon: ReceiptText,
-        tone: 'bg-sand text-teal-deep',
+        tone: 'bg-sand text-teal-ink',
         judul: 'RS-1051 menunggu konfirmasi mitra',
         isi: 'Pemilik barang akan menanggapi dalam 1x24 jam.',
         baru: false,
@@ -101,7 +101,7 @@ export default function Notifikasi({ verifikasi = null }) {
             <div className="mx-auto max-w-2xl">
                 <div className="flex items-end justify-between gap-3">
                     <div>
-                        <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">
+                        <h1 className="text-3xl font-semibold tracking-tight text-teal-ink">
                             Notifikasi
                         </h1>
                         <p className="mt-1 text-sm text-ink/60">
@@ -114,7 +114,7 @@ export default function Notifikasi({ verifikasi = null }) {
                         <button
                             type="button"
                             onClick={() => setDibaca(daftar.map((n) => n.id))}
-                            className="text-sm font-semibold text-teal transition hover:text-teal-deep"
+                            className="text-sm font-semibold text-teal transition hover:text-teal-ink"
                         >
                             Tandai semua dibaca
                         </button>
@@ -152,7 +152,7 @@ export default function Notifikasi({ verifikasi = null }) {
                                         </span>
                                         <div className="min-w-0 flex-1">
                                             <div className="flex items-start justify-between gap-3">
-                                                <p className="text-sm font-semibold text-teal-deep">
+                                                <p className="text-sm font-semibold text-teal-ink">
                                                     {judul}
                                                 </p>
                                                 {belumBaca && (
@@ -172,7 +172,7 @@ export default function Notifikasi({ verifikasi = null }) {
                                                 {tautan && (
                                                     <Link
                                                         href={tautan[0]}
-                                                        className="font-semibold text-clay transition hover:text-clay-deep"
+                                                        className="font-semibold text-clay-ink underline-offset-2 transition hover:underline"
                                                     >
                                                         {tautan[1]}
                                                     </Link>

@@ -2,18 +2,40 @@
 @theme {
     --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
     --font-display: 'Fraunces', Georgia, serif;
-    --color-cream: #faf6ee;
+    /* Token ini dibalik oleh blok .dark di bawah, jadi class Tailwind
+       (bg-cream, text-ink, dst.) otomatis ikut tema tanpa diubah per halaman. */
+    --color-cream: #faf6ee; /* latar halaman */
+    --color-surface: #fffdf9; /* kartu, input, panel putih */
     --color-sand: #f0e9dc;
     --color-rose: #e6bcb3;
     --color-rose-soft: #f6e9e4;
     --color-rose-deep: #b9776c;
-    --color-clay: #9d574d;
+    --color-clay: #9d574d; /* latar: sama di terang dan gelap */
     --color-clay-deep: #84483f;
     --color-clay-soft: #f4e4e0;
+    --color-clay-ink: #9d574d; /* clay sebagai warna TEKS */
     --color-teal: #4a7581;
-    --color-teal-deep: #2f4f5a;
+    --color-teal-deep: #2f4f5a; /* latar teal tua: tombol, panel besar */
+    --color-teal-ink: #2f4f5a; /* teal tua sebagai warna TEKS (judul) */
     --color-ink: #2f3a39;
+    --color-paper: #faf6ee; /* krem tetap, untuk teks di atas panel teal/clay */
     --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Palet gelap. Kelas .dark dipasang di <html> oleh use-appearance / app.blade.php */
+.dark {
+    --color-cream: #141b1c;
+    --color-surface: #1c2628;
+    --color-sand: #263234;
+    --color-rose: #c98477;
+    --color-rose-soft: #3a2a28;
+    --color-rose-deep: #d99a8f;
+    --color-clay-soft: #3a2a29;
+    --color-clay-ink: #e5aea3;
+    --color-teal: #5b94a2;
+    --color-teal-deep: #3a6572;
+    --color-teal-ink: #d3e6ec;
+    --color-ink: #ebe6db;
 }
 @layer base {
     html {
@@ -41,11 +63,17 @@
     }
     /* kartu: putih hangat, garis tipis, bayangan halus (tanpa blur kaca) */
     .glass {
-        background: #fffdf9;
-        border: 1px solid rgb(47 58 57 / 0.09);
+        background: var(--color-surface);
+        border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
         box-shadow:
             0 1px 2px rgb(47 58 57 / 0.04),
             0 10px 28px -16px rgb(47 58 57 / 0.16);
+    }
+    .dark .glass {
+        border-color: color-mix(in srgb, var(--color-ink) 12%, transparent);
+        box-shadow:
+            0 1px 2px rgb(0 0 0 / 0.3),
+            0 10px 28px -16px rgb(0 0 0 / 0.6);
     }
     .glass-dark {
         background: rgb(20 38 44 / 0.55);
@@ -54,10 +82,11 @@
         border: 1px solid rgb(255 255 255 / 0.16);
     }
     .rs-bar {
-        background: rgb(250 246 238 / 0.86);
+        background: color-mix(in srgb, var(--color-cream) 86%, transparent);
         backdrop-filter: blur(14px) saturate(140%);
         -webkit-backdrop-filter: blur(14px) saturate(140%);
-        border-bottom: 1px solid rgb(47 58 57 / 0.08);
+        border-bottom: 1px solid
+            color-mix(in srgb, var(--color-ink) 10%, transparent);
     }
     .rs-card {
         transition:
@@ -69,6 +98,11 @@
         box-shadow:
             0 2px 4px rgb(47 58 57 / 0.05),
             0 22px 40px -20px rgb(47 58 57 / 0.28);
+    }
+    .dark .rs-card:hover {
+        box-shadow:
+            0 2px 4px rgb(0 0 0 / 0.35),
+            0 22px 40px -20px rgb(0 0 0 / 0.75);
     }
     .rs-float {
         animation: rs-float 7s ease-in-out infinite;
@@ -97,6 +131,15 @@
         );
         background-size: 220% 100%;
         animation: rs-shimmer 1.6s linear infinite;
+    }
+    .dark .rs-thumb::before {
+        background: linear-gradient(
+            100deg,
+            transparent 30%,
+            rgb(255 255 255 / 0.1) 50%,
+            transparent 70%
+        );
+        background-size: 220% 100%;
     }
 }
 @keyframes rs-rise {

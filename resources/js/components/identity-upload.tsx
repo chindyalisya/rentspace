@@ -11,7 +11,7 @@ export function UploadBox({ label, hint, file, onFile, selfie }) {
     return (
         <label className="block cursor-pointer">
             <div
-                className={`grid h-52 place-items-center overflow-hidden border-2 border-dashed border-teal/40 bg-white/60 transition hover:bg-white/80 ${selfie ? 'mx-auto w-44 rounded-[50%]' : 'rounded-3xl'}`}
+                className={`grid h-52 place-items-center overflow-hidden border-2 border-dashed border-teal/40 bg-surface/60 transition hover:bg-surface/80 ${selfie ? 'mx-auto w-44 rounded-[50%]' : 'rounded-3xl'}`}
             >
                 {url ? (
                     <img
@@ -49,7 +49,7 @@ export function DocTypeToggle({ value, onChange }) {
                     key={v}
                     type="button"
                     onClick={() => onChange(v)}
-                    className={`rounded-xl py-2 text-sm font-semibold transition ${value === v ? 'bg-white text-teal-deep shadow-sm' : 'text-ink/55'}`}
+                    className={`rounded-xl py-2 text-sm font-semibold transition ${value === v ? 'bg-surface text-teal-ink shadow-sm' : 'text-ink/55'}`}
                 >
                     {l}
                 </button>

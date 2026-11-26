@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useEffect, useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { CheckCircle2, CreditCard, MapPin, Truck } from 'lucide-react';
 import { Button, btn, rupiah } from '@/components/rs';
 import { AppShell } from '@/layouts/shell';
@@ -18,7 +18,7 @@ const Choice = ({ on, onClick, children }) => (
         type="button"
         onClick={onClick}
         aria-pressed={on}
-        className={`flex w-full items-center gap-3 rounded-2xl border p-4 text-left text-sm transition ${on ? 'border-teal bg-teal/10 ring-4 ring-teal/10' : 'border-white/80 bg-white/60 hover:bg-white/80'}`}
+        className={`flex w-full items-center gap-3 rounded-2xl border p-4 text-left text-sm transition ${on ? 'border-teal bg-teal/10 ring-4 ring-teal/10' : 'border-ink/10 bg-surface/60 hover:bg-surface/80'}`}
     >
         {children}
     </button>
@@ -29,7 +29,9 @@ export default function Checkout() {
     const [method, setMethod] = useState('pickup');
     const [bayar, setBayar] = useState('QRIS');
     const [addr, setAddr] = useState('');
-    const [code, setCode] = useState(null);
+    const [busy, setBusy] = useState(false);
+    const [err, setErr] = useState('');
+    const codes = usePage().props.checkoutKodes ?? [];
     useEffect(() => set(getCart()), []);
     const rows = cart.map((c) => ({
         ...c,
@@ -41,26 +43,55 @@ export default function Checkout() {
             (s, r) => s + (r.it.price * r.days + r.it.deposit) * r.qty,
             0,
         ) + (method === 'delivery' ? 10000 : 0);
-    const submit = () => {
-        setCode('RS-' + Math.floor(1000 + Math.random() * 9000));
-        setCart([]);
-    }; // TODO: POST ke backend
 
-    if (code) {
+    const submit = () => {
+        setBusy(true);
+        setErr('');
+        router.post(
+            '/pesanan',
+            {
+                metode: method,
+                alamat: addr,
+                bayar,
+                items: rows.map((r) => ({
+                    slug: r.slug,
+                    qty: r.qty,
+                    start: r.start,
+                    end: r.end,
+                    mitra: r.it.owner,
+                    total: (r.it.price * r.days + r.it.deposit) * r.qty,
+                })),
+            },
+            {
+                preserveScroll: true,
+                onSuccess: () => setCart([]),
+                onError: (e) =>
+                    setErr(Object.values(e)[0] || 'Pesanan gagal dibuat.'),
+                onFinish: () => setBusy(false),
+            },
+        );
+    };
+
+    if (codes.length) {
         return (
             <AppShell>
                 <Head title="Pesanan dibuat" />
                 <div className="glass mx-auto mt-8 grid max-w-md place-items-center rounded-3xl p-10 text-center">
                     <CheckCircle2 size={48} className="text-teal" />
-                    <h1 className="mt-4 text-2xl font-semibold text-teal-deep">
+                    <h1 className="mt-4 text-2xl font-semibold text-teal-ink">
                         Pesanan dibuat
                     </h1>
                     <p className="mt-1 text-sm text-ink/60">
                         Tunjukkan kode ini saat serah terima barang.
                     </p>
-                    <p className="mt-5 rounded-2xl bg-white/80 px-8 py-3 text-2xl font-semibold tracking-widest text-teal">
-                        {code}
-                    </p>
+                    {codes.map((code) => (
+                        <p
+                            key={code}
+                            className="mt-3 rounded-2xl bg-surface/80 px-8 py-3 text-2xl font-semibold tracking-widest text-teal"
+                        >
+                            {code}
+                        </p>
+                    ))}
                     <Link href="/pesanan" className={btn('primary', 'mt-7')}>
                         Lihat pesanan saya
                     </Link>
@@ -72,7 +103,7 @@ export default function Checkout() {
     return (
         <AppShell>
             <Head title="Checkout" />
-            <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">
+            <h1 className="text-3xl font-semibold tracking-tight text-teal-ink">
                 Checkout
             </h1>
             <div className="mt-6 grid gap-6 lg:grid-cols-[1.5fr_1fr]">
@@ -100,7 +131,7 @@ export default function Checkout() {
                                 onChange={(e) => setAddr(e.target.value)}
                                 rows={2}
                                 placeholder="Alamat lengkap pengantaran"
-                                className="mt-3 w-full rounded-2xl border border-white/80 bg-white/70 p-3 text-sm outline-none focus:border-teal focus:ring-4 focus:ring-teal/15"
+                                className="mt-3 w-full rounded-2xl border border-ink/10 bg-surface/70 p-3 text-sm outline-none focus:border-teal focus:ring-4 focus:ring-teal/15"
                             />
                         )}
                     </section>
@@ -124,7 +155,7 @@ export default function Checkout() {
                     </section>
                 </div>
                 <aside className="glass h-fit rounded-3xl p-6 lg:sticky lg:top-24">
-                    <p className="font-medium text-teal-deep">Pesananmu</p>
+                    <p className="font-medium text-teal-ink">Pesananmu</p>
                     <ul className="mt-4 space-y-2 text-sm">
                         {rows.map(({ it, days, ...c }) => (
                             <li
@@ -153,12 +184,17 @@ export default function Checkout() {
                     <Button
                         className="mt-5"
                         disabled={
-                            !rows.length || (method === 'delivery' && !addr)
+                            busy ||
+                            !rows.length ||
+                            (method === 'delivery' && !addr)
                         }
                         onClick={submit}
                     >
-                        Bayar sekarang
+                        {busy ? 'Memproses...' : 'Bayar sekarang'}
                     </Button>
+                    {err && (
+                        <p className="mt-3 text-sm text-red-600">{err}</p>
+                    )}
                 </aside>
             </div>
         </AppShell>

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useMemo, useState } from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import { Button, rupiah, Thumb } from '@/components/rs';
 import { AppShell, MitraTabs } from '@/layouts/shell';
@@ -8,7 +8,6 @@ import {
     bookedDates,
     bySlug,
     mitraItems,
-    mitraRequests as initReq,
 } from '@/lib/dummy';
 
 const monthName = new Date(2026, 9, 1).toLocaleDateString('id-ID', {
@@ -37,7 +36,7 @@ function MonthGrid({ booked }) {
                     d ? (
                         <div
                             key={i}
-                            className={`grid aspect-square place-items-center rounded-xl text-xs font-medium ${booked.includes(iso(d)) ? 'bg-rose/30 text-rose-deep' : 'bg-white/60 text-ink/60'}`}
+                            className={`grid aspect-square place-items-center rounded-xl text-xs font-medium ${booked.includes(iso(d)) ? 'bg-rose/30 text-rose-deep' : 'bg-surface/60 text-ink/60'}`}
                         >
                             {d}
                         </div>
@@ -52,7 +51,7 @@ function MonthGrid({ booked }) {
                     Sudah dibooking
                 </span>
                 <span className="flex items-center gap-1.5">
-                    <i className="size-2.5 rounded-full bg-white/60" />
+                    <i className="size-2.5 rounded-full bg-surface/60" />
                     Tersedia
                 </span>
             </div>
@@ -60,16 +59,24 @@ function MonthGrid({ booked }) {
     );
 }
 
-export default function MitraKalender() {
+export default function MitraKalender({ requests = [] }) {
     const [slug, setSlug] = useState(mitraItems[0].slug);
-    const [reqs, setReqs] = useState(initReq);
-    const act = (id, ok) => setReqs((r) => r.filter((x) => x.id !== id)); // TODO: POST terima/tolak ke backend
+    const [reqs, setReqs] = useState(requests);
+    const act = (id, ok) =>
+        router.patch(
+            `/mitra/pesanan/${id}`,
+            { aksi: ok ? 'terima' : 'tolak' },
+            {
+                preserveScroll: true,
+                onSuccess: () => setReqs((r) => r.filter((x) => x.id !== id)),
+            },
+        );
     const booked = useMemo(() => bookedDates[slug] ?? [], [slug]);
 
     return (
         <AppShell>
             <Head title="Kalender & permintaan" />
-            <h1 className="text-3xl font-semibold tracking-tight text-teal-deep">
+            <h1 className="text-3xl font-semibold tracking-tight text-teal-ink">
                 Kalender & permintaan sewa
             </h1>
             <MitraTabs active="/mitra/kalender" />
@@ -77,13 +84,13 @@ export default function MitraKalender() {
             <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.1fr]">
                 <section className="glass rounded-3xl p-5">
                     <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-                        <p className="font-medium text-teal-deep">
+                        <p className="font-medium text-teal-ink">
                             Ketersediaan · {monthName}
                         </p>
                         <select
                             value={slug}
                             onChange={(e) => setSlug(e.target.value)}
-                            className="rounded-xl border border-white/80 bg-white/70 px-3 py-1.5 text-xs outline-none"
+                            className="rounded-xl border border-ink/10 bg-surface/70 px-3 py-1.5 text-xs outline-none"
                         >
                             {mitraItems.map((it) => (
                                 <option key={it.slug} value={it.slug}>
@@ -96,7 +103,7 @@ export default function MitraKalender() {
                 </section>
 
                 <section className="glass rounded-3xl p-5">
-                    <p className="mb-3 font-medium text-teal-deep">
+                    <p className="mb-3 font-medium text-teal-ink">
                         Permintaan sewa masuk
                     </p>
                     <div className="space-y-3">
@@ -105,7 +112,7 @@ export default function MitraKalender() {
                             return (
                                 <div
                                     key={r.id}
-                                    className="rounded-2xl bg-white/60 p-4"
+                                    className="rounded-2xl bg-surface/60 p-4"
                                 >
                                     <div className="flex items-center gap-3">
                                         <Thumb

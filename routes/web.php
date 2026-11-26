@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MitraPesananController;
+use App\Http\Controllers\PesananController;
 use App\Http\Controllers\VerifikasiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,7 +37,7 @@ Route::middleware(['auth', 'verifikasi'])->group(function () {
     Route::get('/cari', fn (Request $r) => Inertia::render('katalog', ['q' => $r->query('q', '')]));
     Route::get('/barang/{slug}', fn ($slug) => Inertia::render('barang', ['slug' => $slug]));
     Route::get('/keranjang', fn () => Inertia::render('keranjang'));
-    Route::get('/pesanan/{id?}', fn ($id = null) => Inertia::render('pesanan', ['id' => $id]));
+    Route::get('/pesanan/{id?}', [PesananController::class, 'index']);
     Route::get('/profil', fn () => Inertia::render('profil'));
     Route::get('/alamat', fn () => Inertia::render('alamat'));
     Route::get('/dompet', fn () => Inertia::render('dompet'));
@@ -45,12 +47,14 @@ Route::middleware(['auth', 'verifikasi'])->group(function () {
 // Transaksi & mitra: wajib sudah disetujui admin
 Route::middleware(['auth', 'verifikasi:approved'])->group(function () {
     Route::get('/checkout', fn () => Inertia::render('checkout'));
+    Route::post('/pesanan', [PesananController::class, 'store'])->name('pesanan.store');
 
     Route::prefix('mitra')->group(function () {
-        Route::get('/dashboard', fn () => Inertia::render('mitra/dashboard'));
+        Route::get('/dashboard', [MitraPesananController::class, 'dashboard']);
         Route::get('/barang', fn () => Inertia::render('mitra/barang'));
         Route::get('/tambah-barang', fn () => Inertia::render('mitra/tambah-barang'));
-        Route::get('/kalender', fn () => Inertia::render('mitra/kalender'));
+        Route::get('/kalender', [MitraPesananController::class, 'kalender']);
+        Route::patch('/pesanan/{pesanan:kode}', [MitraPesananController::class, 'update']);
         Route::get('/laporan', fn () => Inertia::render('mitra/laporan'));
     });
 });

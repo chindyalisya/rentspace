@@ -9,15 +9,15 @@ import { cats, items } from '@/lib/dummy';
 /* Tiap kategori punya warna sendiri: banner, teks, dan chip aktif */
 const tema = {
     semua: {
-        banner: 'bg-teal-deep text-cream',
-        sub: 'text-cream/90',
-        chip: 'bg-teal-deep text-cream',
+        banner: 'bg-teal-deep text-paper',
+        sub: 'text-paper/90',
+        chip: 'bg-teal-deep text-paper',
         desc: 'Semua barang dari sesama mahasiswa, siap disewa per hari.',
     },
     'alat-camping': {
-        banner: 'bg-teal text-white',
-        sub: 'text-white/90',
-        chip: 'bg-teal text-white',
+        banner: 'bg-teal text-white dark:text-cream',
+        sub: 'text-white/90 dark:text-cream/90',
+        chip: 'bg-teal text-white dark:text-cream',
         desc: 'Tenda, carrier, dan perlengkapan untuk naik gunung.',
     },
     elektronik: {
@@ -27,14 +27,14 @@ const tema = {
         desc: 'Kamera, speaker, dan alat elektronik untuk project kuliah.',
     },
     fashion: {
-        banner: 'bg-rose-soft text-teal-deep',
-        sub: 'text-teal-deep/75',
+        banner: 'bg-rose-soft text-teal-ink',
+        sub: 'text-teal-ink/75',
         chip: 'bg-clay-deep text-white',
         desc: 'Pakaian dan sepatu untuk sidang, wawancara, dan acara formal.',
     },
     akademik: {
-        banner: 'bg-sand text-teal-deep',
-        sub: 'text-teal-deep/75',
+        banner: 'bg-sand text-teal-ink',
+        sub: 'text-teal-ink/75',
         chip: 'bg-ink text-cream',
         desc: 'Almamater dan alat kuliah yang cuma dipakai sesekali.',
     },
@@ -117,7 +117,7 @@ export default function Katalog({ kategori = 'semua', q = '' }) {
                     <Link
                         key={s}
                         href={`/katalog/${s}`}
-                        className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${kategori === s ? `${tema[s]?.chip ?? tema.semua.chip} shadow-sm` : 'glass text-ink/70 hover:bg-white/80'}`}
+                        className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${kategori === s ? `${tema[s]?.chip ?? tema.semua.chip} shadow-sm` : 'glass text-ink/70 hover:bg-surface/80'}`}
                     >
                         {l}
                     </Link>
