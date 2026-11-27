@@ -4,7 +4,7 @@ import { Head, Link } from '@inertiajs/react';
 import { PackagePlus, Pencil } from 'lucide-react';
 import { btn, rupiah, Thumb } from '@/components/rs';
 import { AppShell, MitraTabs } from '@/layouts/shell';
-import { mitraItems } from '@/lib/dummy';
+import { bySlug } from '@/lib/dummy';
 
 const tabs = [
     ['Semua', () => true],
@@ -13,9 +13,14 @@ const tabs = [
     ['Sedang disewa', (i) => i.disewaHariIni],
 ];
 
-export default function MitraBarang() {
+export default function MitraBarang({ barang = [], disewa = [] }) {
     const [tab, setTab] = useState(0);
-    const list = mitraItems.filter(tabs[tab][1]);
+    const mine = barang.map((slug) => ({
+        ...bySlug(slug),
+        status: bySlug(slug).nonaktif ? 'Nonaktif' : 'Aktif',
+        disewaHariIni: disewa.includes(slug),
+    }));
+    const list = mine.filter(tabs[tab][1]);
     return (
         <AppShell>
             <Head title="Barang saya" />
@@ -71,10 +76,13 @@ export default function MitraBarang() {
                                 </span>
                             </div>
                         </div>
-                        <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-surface/70 py-2 text-sm font-medium text-teal-ink transition hover:bg-surface">
+                        <Link
+                            href={`/mitra/barang/${it.slug}/edit`}
+                            className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-surface/70 py-2 text-sm font-medium text-teal-ink transition hover:bg-surface"
+                        >
                             <Pencil size={14} />
                             Edit barang
-                        </button>
+                        </Link>
                     </div>
                 ))}
                 {!list.length && (

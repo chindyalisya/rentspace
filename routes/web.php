@@ -48,10 +48,15 @@ Route::middleware(['auth', 'verifikasi'])->group(function () {
 Route::middleware(['auth', 'verifikasi:approved'])->group(function () {
     Route::get('/checkout', fn () => Inertia::render('checkout'));
     Route::post('/pesanan', [PesananController::class, 'store'])->name('pesanan.store');
+    Route::post('/pesanan/{pesanan:kode}/ulasan', [PesananController::class, 'ulasan']);
+    Route::patch('/pesanan/{pesanan:kode}/serah-terima', [PesananController::class, 'serahTerima']);
+    Route::patch('/pesanan/{pesanan:kode}/kembalikan', [PesananController::class, 'kembalikan']);
 
     Route::prefix('mitra')->group(function () {
         Route::get('/dashboard', [MitraPesananController::class, 'dashboard']);
-        Route::get('/barang', fn () => Inertia::render('mitra/barang'));
+        Route::get('/barang', [MitraPesananController::class, 'barang']);
+        Route::get('/barang/{slug}/edit', [MitraPesananController::class, 'editBarang']);
+        Route::patch('/barang/{slug}', [MitraPesananController::class, 'updateBarang']);
         Route::get('/tambah-barang', fn () => Inertia::render('mitra/tambah-barang'));
         Route::get('/kalender', [MitraPesananController::class, 'kalender']);
         Route::patch('/pesanan/{pesanan:kode}', [MitraPesananController::class, 'update']);

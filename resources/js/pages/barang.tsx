@@ -23,6 +23,7 @@ export default function Barang({ slug }) {
     const days = daysBetween(start, end);
     const sewa = it.price * days;
     const mirip = items
+        .filter((x) => !x.nonaktif)
         .filter((x) => x.cat === it.cat && x.slug !== it.slug)
         .slice(0, 4);
     const add = (to) => {

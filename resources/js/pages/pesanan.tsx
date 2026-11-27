@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { Check, ChevronRight, Star } from 'lucide-react';
 import { Button, StatusBadge, rupiah, Thumb } from '@/components/rs';
 import { AppShell } from '@/layouts/shell';
@@ -15,6 +15,7 @@ const tabs = [
                 'Sedang Disewa',
                 'Jatuh Tempo',
                 'Dikonfirmasi',
+                'Dikembalikan',
                 'Menunggu Konfirmasi',
             ].includes(o.status),
     ],
@@ -40,10 +41,48 @@ const at = {
 
 function Detail({ o }) {
     const it = bySlug(o.slug);
-    const [aksi, setAksi] = useState(null);
-    const [sent, setSent] = useState(false);
     const [star, setStar] = useState(0);
-    const active = ['Sedang Disewa', 'Jatuh Tempo'].includes(o.status);
+    const [teks, setTeks] = useState('');
+    const [proses, setProses] = useState(false);
+    const [errU, setErrU] = useState('');
+    const [err, setErr] = useState('');
+    // Serah terima hanya setelah mitra menerima; pengembalian hanya
+    // setelah barang benar-benar sedang disewa.
+    const bisaSerah = o.status === 'Dikonfirmasi';
+    const bisaKembali = ['Sedang Disewa', 'Jatuh Tempo'].includes(o.status);
+    const info = {
+        'Menunggu Konfirmasi':
+            'Menunggu mitra menerima pesananmu. Serah terima dan pengembalian baru bisa dilakukan setelah pesanan diterima.',
+        Dikembalikan:
+            'Pengembalian sudah diajukan. Menunggu mitra mengonfirmasi barang sudah kembali.',
+        Dibatalkan: 'Pesanan ini ditolak atau dibatalkan.',
+    }[o.status];
+    const kirim = (path) => {
+        setErr('');
+        router.patch(
+            `/pesanan/${o.id}/${path}`,
+            {},
+            {
+                preserveScroll: true,
+                onError: (e) =>
+                    setErr(Object.values(e)[0] || 'Aksi gagal diproses.'),
+            },
+        );
+    };
+    const kirimUlasan = () => {
+        setProses(true);
+        setErrU('');
+        router.post(
+            `/pesanan/${o.id}/ulasan`,
+            { rating: star, ulasan: teks },
+            {
+                preserveScroll: true,
+                onError: (e) =>
+                    setErrU(Object.values(e)[0] || 'Ulasan gagal dikirim.'),
+                onFinish: () => setProses(false),
+            },
+        );
+    };
     const row = (k, v) => (
         <div className="flex justify-between text-sm">
             <dt className="text-ink/55">{k}</dt>
@@ -111,78 +150,121 @@ function Detail({ o }) {
                             })}
                         </ol>
                     </div>
-                    {active && (
+                    {info && (
+                        <div className="glass rounded-3xl p-5 text-sm text-ink/70">
+                            {info}
+                        </div>
+                    )}
+                    {(bisaSerah || bisaKembali) && (
                         <div className="glass rounded-3xl p-5">
-                            <div className="grid grid-cols-2 gap-3">
+                            <p className="text-sm text-ink/60">
+                                {bisaSerah
+                                    ? 'Mitra sudah menerima pesananmu. Konfirmasi setelah barang kamu terima.'
+                                    : 'Ajukan pengembalian setelah barang siap diserahkan ke mitra.'}
+                            </p>
+                            <div className="mt-4 space-y-3">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    className="w-full rounded-2xl border border-dashed border-teal/40 bg-surface/60 p-3 text-xs"
+                                />
+                                <textarea
+                                    rows={2}
+                                    placeholder="Catatan (opsional)"
+                                    className="w-full rounded-2xl border border-ink/10 bg-surface/70 p-3 text-sm outline-none focus:border-teal"
+                                />
                                 <Button
-                                    variant="soft"
-                                    onClick={() => setAksi('serah')}
+                                    onClick={() =>
+                                        kirim(
+                                            bisaSerah
+                                                ? 'serah-terima'
+                                                : 'kembalikan',
+                                        )
+                                    }
                                 >
-                                    Serah terima
+                                    {bisaSerah
+                                        ? 'Konfirmasi barang diterima'
+                                        : 'Ajukan pengembalian'}
                                 </Button>
-                                <Button onClick={() => setAksi('kembali')}>
-                                    Ajukan pengembalian
-                                </Button>
-                            </div>
-                            {aksi &&
-                                (sent ? (
-                                    <p className="mt-4 text-center text-sm text-teal">
-                                        Terkirim. Menunggu konfirmasi mitra.
+                                {err && (
+                                    <p className="text-sm text-red-600">
+                                        {err}
                                     </p>
-                                ) : (
-                                    <div className="mt-4 space-y-3">
-                                        <p className="text-sm text-ink/60">
-                                            Unggah foto kondisi barang
-                                            {aksi === 'serah'
-                                                ? ' saat diterima'
-                                                : ' sebelum dikembalikan'}
-                                            .
-                                        </p>
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            multiple
-                                            className="w-full rounded-2xl border border-dashed border-teal/40 bg-surface/60 p-3 text-xs"
-                                        />
-                                        <textarea
-                                            rows={2}
-                                            placeholder="Catatan (opsional)"
-                                            className="w-full rounded-2xl border border-ink/10 bg-surface/70 p-3 text-sm outline-none focus:border-teal"
-                                        />
-                                        <Button onClick={() => setSent(true)}>
-                                            Kirim
-                                        </Button>
-                                    </div>
-                                ))}
+                                )}
+                            </div>
                         </div>
                     )}
                     {o.status === 'Selesai' && (
                         <div className="glass rounded-3xl p-5">
-                            <p className="font-medium">Beri ulasan</p>
-                            <div className="my-3 flex gap-1">
-                                {[1, 2, 3, 4, 5].map((n) => (
-                                    <button
-                                        key={n}
-                                        aria-label={`${n} bintang`}
-                                        onClick={() => setStar(n)}
+                            {o.rating ? (
+                                <>
+                                    <p className="font-medium">Ulasanmu</p>
+                                    <div className="my-3 flex gap-1">
+                                        {[1, 2, 3, 4, 5].map((n) => (
+                                            <Star
+                                                key={n}
+                                                size={26}
+                                                className={
+                                                    n <= o.rating
+                                                        ? 'fill-amber-400 text-amber-400'
+                                                        : 'text-ink/25'
+                                                }
+                                            />
+                                        ))}
+                                    </div>
+                                    {o.ulasan && (
+                                        <p className="text-sm text-ink/70">
+                                            {o.ulasan}
+                                        </p>
+                                    )}
+                                    <p className="mt-3 flex items-center gap-2 text-sm font-medium text-teal">
+                                        <Check size={15} />
+                                        Terima kasih, ulasanmu sudah terkirim.
+                                    </p>
+                                </>
+                            ) : (
+                                <>
+                                    <p className="font-medium">Beri ulasan</p>
+                                    <div className="my-3 flex gap-1">
+                                        {[1, 2, 3, 4, 5].map((n) => (
+                                            <button
+                                                key={n}
+                                                type="button"
+                                                aria-label={`${n} bintang`}
+                                                onClick={() => setStar(n)}
+                                            >
+                                                <Star
+                                                    size={26}
+                                                    className={
+                                                        n <= star
+                                                            ? 'fill-amber-400 text-amber-400'
+                                                            : 'text-ink/25'
+                                                    }
+                                                />
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <textarea
+                                        rows={2}
+                                        value={teks}
+                                        onChange={(e) => setTeks(e.target.value)}
+                                        placeholder="Ceritakan pengalamanmu (opsional)"
+                                        className="mb-3 w-full rounded-2xl border border-ink/10 bg-surface/70 p-3 text-sm outline-none focus:border-teal"
+                                    />
+                                    <Button
+                                        disabled={!star || proses}
+                                        onClick={kirimUlasan}
                                     >
-                                        <Star
-                                            size={26}
-                                            className={
-                                                n <= star
-                                                    ? 'fill-amber-400 text-amber-400'
-                                                    : 'text-ink/25'
-                                            }
-                                        />
-                                    </button>
-                                ))}
-                            </div>
-                            <Button
-                                disabled={!star}
-                                onClick={() => setSent(true)}
-                            >
-                                {sent ? 'Terima kasih' : 'Kirim ulasan'}
-                            </Button>
+                                        {proses ? 'Mengirim...' : 'Kirim ulasan'}
+                                    </Button>
+                                    {errU && (
+                                        <p className="mt-3 text-sm text-red-600">
+                                            {errU}
+                                        </p>
+                                    )}
+                                </>
+                            )}
                         </div>
                     )}
                 </div>

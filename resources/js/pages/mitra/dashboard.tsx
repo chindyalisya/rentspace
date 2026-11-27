@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import {
     ChevronRight,
     PackageCheck,
@@ -7,14 +7,9 @@ import {
     TrendingUp,
     Wallet,
 } from 'lucide-react';
-import { StatusBadge, rupiah, Thumb } from '@/components/rs';
+import { Button, StatusBadge, rupiah, Thumb } from '@/components/rs';
 import { AppShell, MitraTabs } from '@/layouts/shell';
-import {
-    bySlug,
-    mitraItems,
-    mitraStats as s,
-    orders,
-} from '@/lib/dummy';
+import { bySlug, mitraStats as s } from '@/lib/dummy';
 
 const stats = [
     [
@@ -38,11 +33,23 @@ const stats = [
     ],
     [Star, 'Rating mitra', s.rating, 'bg-sand text-teal-ink'],
 ];
-const aktif = orders.filter((o) =>
-    ['Sedang Disewa', 'Jatuh Tempo'].includes(o.status),
-);
 
-export default function MitraDashboard({ requests = [] }) {
+export default function MitraDashboard({
+    requests = [],
+    aktif = [],
+    pengembalian = [],
+    barang = [],
+}) {
+    const milik = barang.map((slug) => ({
+        ...bySlug(slug),
+        status: bySlug(slug).nonaktif ? 'Nonaktif' : 'Aktif',
+    }));
+    const selesai = (id) =>
+        router.patch(
+            `/mitra/pesanan/${id}`,
+            { aksi: 'selesai' },
+            { preserveScroll: true },
+        );
     return (
         <AppShell>
             <Head title="Dashboard mitra" />
@@ -179,10 +186,54 @@ export default function MitraDashboard({ requests = [] }) {
                 </section>
             </div>
 
+            {pengembalian.length > 0 && (
+                <section className="glass mt-6 rounded-3xl p-5">
+                    <div className="mb-3 flex items-center justify-between">
+                        <p className="font-medium text-teal-ink">
+                            Menunggu konfirmasi pengembalian
+                        </p>
+                        <span className="rounded-full bg-rose/25 px-2.5 py-0.5 text-xs font-medium text-rose-deep">
+                            {pengembalian.length} barang
+                        </span>
+                    </div>
+                    <div className="space-y-2.5">
+                        {pengembalian.map((o) => {
+                            const it = bySlug(o.slug);
+                            return (
+                                <div
+                                    key={o.id}
+                                    className="flex items-center gap-3 rounded-2xl bg-surface/60 p-3"
+                                >
+                                    <Thumb
+                                        item={it}
+                                        zoom={false}
+                                        className="size-11 rounded-lg"
+                                    />
+                                    <div className="min-w-0 flex-1">
+                                        <p className="truncate text-sm font-medium">
+                                            {it.name}
+                                        </p>
+                                        <p className="text-xs text-ink/55">
+                                            {o.penyewa} · {o.id}
+                                        </p>
+                                    </div>
+                                    <Button
+                                        onClick={() => selesai(o.id)}
+                                        className="!py-2"
+                                    >
+                                        Barang sudah kembali
+                                    </Button>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </section>
+            )}
+
             <section className="glass mt-6 rounded-3xl p-5">
                 <p className="mb-3 font-medium text-teal-ink">Barangmu</p>
                 <div className="grid gap-2.5 sm:grid-cols-3">
-                    {mitraItems.map((it) => (
+                    {milik.map((it) => (
                         <div
                             key={it.slug}
                             className="flex items-center gap-3 rounded-2xl bg-surface/60 p-3"
@@ -207,6 +258,11 @@ export default function MitraDashboard({ requests = [] }) {
                             </span>
                         </div>
                     ))}
+                    {!milik.length && (
+                        <p className="text-sm text-ink/55">
+                            Akun ini belum punya barang.
+                        </p>
+                    )}
                 </div>
             </section>
         </AppShell>

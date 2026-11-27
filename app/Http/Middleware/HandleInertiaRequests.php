@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Barang;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -41,6 +42,16 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            // Hasil edit mitra (harga, deposit, deskripsi, status) untuk menimpa data dummy di frontend.
+            'barangOverrides' => fn () => Barang::all(['slug', 'nama', 'harga', 'deposit', 'deskripsi', 'aktif'])
+                ->mapWithKeys(fn ($b) => [$b->slug => [
+                    'nama' => $b->nama,
+                    'harga' => $b->harga,
+                    'deposit' => $b->deposit,
+                    'deskripsi' => $b->deskripsi,
+                    'aktif' => $b->aktif,
+                ]])
+                ->all(),
             'checkoutKodes' => fn () => $request->session()->get('checkoutKodes'),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];

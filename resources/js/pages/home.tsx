@@ -78,7 +78,9 @@ const Head2 = ({ title, sub, href = '/katalog' }) => (
 );
 const Grid = ({ items }) => (
     <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
-        {items.map((it, n) => (
+        {items
+            .filter((it) => !it.nonaktif)
+            .map((it, n) => (
             <Reveal key={it.slug} delay={n * 70}>
                 <ProductCard item={it} animate={false} />
             </Reveal>

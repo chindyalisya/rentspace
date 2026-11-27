@@ -49,6 +49,7 @@ export default function Katalog({ kategori = 'semua', q = '' }) {
     const [query, setQuery] = useState(q);
     const [sort, setSort] = useState('populer');
     const list = items
+        .filter((i) => !i.nonaktif)
         .filter(
             (i) =>
                 (kategori === 'semua' || i.cat === kategori) &&
@@ -61,6 +62,7 @@ export default function Katalog({ kategori = 'semua', q = '' }) {
             ? 'Katalog barang'
             : (cats.find(([s]) => s === kategori)?.[1] ?? 'Katalog barang');
     const contoh = items
+        .filter((i) => !i.nonaktif)
         .filter((i) => kategori === 'semua' || i.cat === kategori)
         .slice(0, 3);
     return (

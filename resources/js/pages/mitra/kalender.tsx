@@ -4,11 +4,7 @@ import { Head, router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import { Button, rupiah, Thumb } from '@/components/rs';
 import { AppShell, MitraTabs } from '@/layouts/shell';
-import {
-    bookedDates,
-    bySlug,
-    mitraItems,
-} from '@/lib/dummy';
+import { bookedDates, bySlug } from '@/lib/dummy';
 
 const monthName = new Date(2026, 9, 1).toLocaleDateString('id-ID', {
     month: 'long',
@@ -59,8 +55,9 @@ function MonthGrid({ booked }) {
     );
 }
 
-export default function MitraKalender({ requests = [] }) {
-    const [slug, setSlug] = useState(mitraItems[0].slug);
+export default function MitraKalender({ requests = [], barang = [] }) {
+    const mine = barang.map((s) => bySlug(s));
+    const [slug, setSlug] = useState(barang[0] ?? '');
     const [reqs, setReqs] = useState(requests);
     const act = (id, ok) =>
         router.patch(
@@ -92,7 +89,7 @@ export default function MitraKalender({ requests = [] }) {
                             onChange={(e) => setSlug(e.target.value)}
                             className="rounded-xl border border-ink/10 bg-surface/70 px-3 py-1.5 text-xs outline-none"
                         >
-                            {mitraItems.map((it) => (
+                            {mine.map((it) => (
                                 <option key={it.slug} value={it.slug}>
                                     {it.name}
                                 </option>
